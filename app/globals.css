@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+/* ─── Dark mode: class-based for next-themes ─── */
+@variant dark (&:where(.dark, .dark *));
+
+/* ─── Z3ymo Design System ─── */
+@theme {
+  /* Fonts */
+  --font-display: var(--font-syne), ui-serif, system-ui;
+  --font-body: var(--font-dm-sans), ui-sans-serif, system-ui;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* ── Brand Colors ── */
+
+  /* Deep Void */
+  --color-void:      #0A0A0F;
+  --color-void-800:  #12121A;
+  --color-void-700:  #1A1A28;
+
+  /* Midnight Surface */
+  --color-surface:     #2A2A3D;
+  --color-surface-700: #232335;
+  --color-surface-400: #363650;
+  --color-surface-300: #44445C;
+
+  /* Whisper */
+  --color-whisper:     #F0EEF8;
+  --color-whisper-700: #E4E2F0;
+  --color-whisper-500: #CCCAE0;
+  --color-whisper-300: #B0ADCC;
+
+  /* Crimson */
+  --color-crimson:     #C0392B;
+  --color-crimson-400: #E74C3C;
+  --color-crimson-700: #922B21;
+  --color-crimson-900: #6B1E17;
+
+  /* Emerald Teal */
+  --color-emerald:     #1B998B;
+  --color-emerald-400: #26B5A3;
+  --color-emerald-700: #0F7A6E;
+  --color-emerald-900: #085049;
+
+  /* Aged Gold */
+  --color-gold:     #C9A84C;
+  --color-gold-400: #D4B55E;
+  --color-gold-700: #A88A3A;
+  --color-gold-900: #7A6228;
+
+  /* ── Spacing & Sizing ── */
+  --radius:     0.75rem;
+  --radius-sm:  0.375rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.5rem;
+  --radius-2xl: 2rem;
+  --radius-full: 9999px;
+
+  /* ── Transitions ── */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Base Styles ─── */
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-whisper);
+    color: var(--color-void);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  .dark body {
+    background-color: var(--color-void);
+    color: var(--color-whisper);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  ::selection {
+    background-color: var(--color-crimson);
+    color: var(--color-whisper);
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-crimson);
+    border-radius: var(--radius-full);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-crimson-400);
+  }
+}
+
+/* ─── Custom Animations ─── */
+@layer utilities {
+
+  /* Shimmer gradient text — used on hero headline accent */
+  .shimmer-text {
+    background: linear-gradient(
+      90deg,
+      var(--color-crimson) 0%,
+      var(--color-gold) 33%,
+      var(--color-emerald) 66%,
+      var(--color-crimson) 100%
+    );
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 5s linear infinite;
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 0% center; }
+    100% { background-position: 250% center; }
+  }
+
+  /* Gradient border glow for primary CTA */
+  .glow-border {
+    position: relative;
+  }
+  .glow-border::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      var(--color-crimson),
+      var(--color-gold),
+      var(--color-emerald)
+    );
+    background-size: 200% 200%;
+    animation: gradient-rotate 4s ease infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .glow-border:hover::before {
+    opacity: 1;
+  }
+
+  @keyframes gradient-rotate {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* Floating animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  /* Pulse dot for typing indicator */
+  .typing-dot {
+    animation: typing-bounce 1.4s infinite ease-in-out;
+  }
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes typing-bounce {
+    0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+    30%            { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Glass card */
+  .glass {
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background: rgba(240, 238, 248, 0.06);
+    border: 1px solid rgba(240, 238, 248, 0.12);
+  }
+  .dark .glass {
+    background: rgba(42, 42, 61, 0.4);
+    border: 1px solid rgba(240, 238, 248, 0.08);
+  }
+
+  /* Grain texture overlay for premium feel */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    border-radius: inherit;
+  }
+
+  /* Text balance */
+  .text-balance { text-wrap: balance; }
+  .text-pretty  { text-wrap: pretty; }
+
+  /* Gradient bg section */
+  .section-gradient-crimson {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(192, 57, 43, 0.08) 0%,
+      transparent 70%
+    );
+  }
+  .section-gradient-emerald {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 100%,
+      rgba(27, 153, 139, 0.08) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    .shimmer-text { animation: none; }
+    .float        { animation: none; }
+    .typing-dot   { animation: none; }
+    * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ─── Card depth & interactivity ─── */
+
+  /* Light mode card shadow — gives real depth */
+  .card-depth {
+    box-shadow: 0 1px 3px rgba(10,10,15,0.06), 0 4px 16px rgba(10,10,15,0.05);
+    transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+  .card-depth:hover {
+    box-shadow: 0 4px 20px rgba(10,10,15,0.1), 0 12px 40px rgba(10,10,15,0.07);
+    transform: translateY(-2px);
+  }
+  .dark .card-depth {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2);
+  }
+  .dark .card-depth:hover {
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(240,238,248,0.06);
+    transform: translateY(-2px);
+  }
+
+  /* Card with crimson hover accent */
+  .card-hover-crimson:hover {
+    border-color: rgba(192,57,43,0.25) !important;
+  }
+  .card-hover-crimson:hover .card-accent-line {
+    opacity: 1;
+  }
+  .card-accent-line {
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  /* Interactive scale for clickable cards */
+  .card-interactive {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card-interactive:active {
+    transform: scale(0.98) translateY(0px) !important;
+  }
+
+  /* Magnetic hover shimmer effect */
+  .card-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(240,238,248,0.04) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+  .card-shimmer:hover::after {
+    transform: translateX(100%);
+  }
+
+  /* ─── Blog / Article prose typography ─── */
+  /* Applied via className on the article element in the blog post page */
+
+  .prose-article h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 1.875rem);
+    font-weight: 600;
+    letter-spacing: -0.025em;
+    color: var(--color-void);
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .dark .prose-article h2 { color: var(--color-whisper); }
+
+  .prose-article h3 {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.5vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-void);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .dark .prose-article h3 { color: var(--color-whisper); }
+
+  .prose-article p {
+    font-size: 1.05rem;
+    line-height: 1.85;
+    color: rgba(10,10,15,0.68);
+    margin-bottom: 1.35rem;
+  }
+
+  .dark .prose-article p { color: rgba(240,238,248,0.65); }
+
+  .prose-article ul,
+  .prose-article ol {
+    margin: 1.25rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .prose-article li {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: rgba(10,10,15,0.65);
+    margin-bottom: 0.4rem;
+  }
+
+  .dark .prose-article li { color: rgba(240,238,248,0.6); }
+
+  .prose-article ul li::marker { color: var(--color-crimson); }
+  .prose-article ol li::marker {
+    color: var(--color-crimson);
+    font-weight: 600;
+    font-family: var(--font-display);
+  }
+
+  .prose-article strong {
+    font-weight: 600;
+    color: var(--color-void);
+  }
+
+  .dark .prose-article strong { color: var(--color-whisper); }
+
+  .prose-article em { font-style: italic; }
+
+  /* Inline code */
+  .prose-article :not(pre) > code {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    background: rgba(10,10,15,0.06);
+    color: var(--color-crimson);
+    padding: 0.15em 0.4em;
+    border-radius: 5px;
+    border: 1px solid rgba(10,10,15,0.08);
+  }
+
+  .dark .prose-article :not(pre) > code {
+    background: rgba(240,238,248,0.06);
+    border-color: rgba(240,238,248,0.1);
+  }
+
+  /* Heading anchor links */
+  .prose-article .heading-anchor {
+    text-decoration: none;
+    color: inherit;
+  }
+  .prose-article .heading-anchor:hover { color: var(--color-crimson); }
+
+  /* Shiki code blocks */
+  .prose-article [data-rehype-pretty-code-fragment] {
+    margin: 2rem 0;
+  }
+  .prose-article [data-rehype-pretty-code-title] {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(240,238,248,0.5);
+    background: rgba(240,238,248,0.05);
+    border: 1px solid rgba(240,238,248,0.08);
+    border-bottom: none;
+    padding: 8px 16px;
+    border-radius: 12px 12px 0 0;
+  }
+  .prose-article [data-rehype-pretty-code-title] + pre {
+    border-radius: 0 0 12px 12px !important;
+    margin-top: 0 !important;
+  }
+}
