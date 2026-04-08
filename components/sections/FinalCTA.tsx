@@ -43,20 +43,19 @@ export default function FinalCTA() {
 
         <ScrollReveal>
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-6">
-            Let&apos;s build together
+            Work with Z3ymo
           </p>
 
           <h2 className="font-display font-bold text-[clamp(2.5rem,7vw,5rem)] text-void dark:text-whisper leading-[0.95] mb-6 text-balance">
-            Ready to build
+            Let&apos;s design the
             <br />
-            <span className="text-crimson">something</span>
+            <span className="text-crimson">right system</span>
             <br />
-            remarkable?
+            for your business
           </h2>
 
           <p className="text-base text-void/50 dark:text-whisper/50 max-w-lg mx-auto mb-10 leading-relaxed">
-            Start with a free consultation — no pressure, no commitment.
-            We&apos;ll figure out exactly what you need before anything else.
+            Tell us about your idea or challenge, and we&apos;ll explore how software and AI can help solve it.
           </p>
         </ScrollReveal>
 
@@ -67,7 +66,7 @@ export default function FinalCTA() {
             variant="primary"
             size="lg"
           >
-            Book a free consultation
+            🔥 Book Free Consultation
           </MagneticButton>
 
           <div className="flex items-center gap-4 text-sm text-void/40 dark:text-whisper/30">

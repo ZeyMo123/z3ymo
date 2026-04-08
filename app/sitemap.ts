@@ -1,107 +1,69 @@
 import { MetadataRoute } from 'next'
 import { getAllPostSlugs } from '@/lib/supabase/queries'
+import { getAllSolutionSlugs } from '@/lib/data/solutions'
+import { getAllServiceSlugs } from '@/lib/data/services'
+import { getAllPlatformSlugs } from '@/lib/data/platforms'
 
-const BASE_URL = 'https://z3ymo.com'
+const BASE = 'https://z3ymo.com'
+const now  = new Date()
 
-export const revalidate = 3600 // Regenerate every hour
+function url(
+  path:   string,
+  priority:        number,
+  changeFrequency: MetadataRoute.Sitemap[0]['changeFrequency'] = 'monthly',
+): MetadataRoute.Sitemap[0] {
+  return { url: `${BASE}${path}`, lastModified: now, changeFrequency, priority }
+}
+
+export const revalidate = 3600 // re-generate every hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages
-  const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: BASE_URL,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1.0,
-    },
-    {
-      url: `${BASE_URL}/services`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/products`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/ai-agents`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/ai-agents/pulse`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.95,
-    },
-    {
-      url: `${BASE_URL}/portfolio`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/investors`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/portfolio`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE_URL}/about`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/blog`,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/investors`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
-      url: `${BASE_URL}/privacy`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-    {
-      url: `${BASE_URL}/terms`,
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
+
+  // ── Core pages ──────────────────────────────────────────────
+  const core: MetadataRoute.Sitemap = [
+    url('/',            1.0, 'weekly'),
+    url('/about',       0.7),
+    url('/blog',        0.9, 'daily'),
+    url('/portfolio',   0.8),
+    url('/investors',   0.6),
+    url('/privacy',     0.3, 'yearly'),
+    url('/terms',       0.3, 'yearly'),
   ]
 
-  // Dynamic blog post pages
-  let blogPages: MetadataRoute.Sitemap = []
+  // ── Products ────────────────────────────────────────────────
+  const platformSlugs  = getAllPlatformSlugs()
+  const products: MetadataRoute.Sitemap = [
+    url('/products',            0.9, 'weekly'),
+    url('/products/platforms',  0.9, 'weekly'),
+    ...platformSlugs.map((slug) => url(`/products/platforms/${slug}`, 0.85)),
+    url('/ai-agents',           0.9, 'weekly'),
+    url('/ai-agents/pulse',     0.95, 'weekly'),
+  ]
+
+  // ── Services ────────────────────────────────────────────────
+  const serviceSlugs = getAllServiceSlugs()
+  const services: MetadataRoute.Sitemap = [
+    url('/services',                                            0.9),
+    url('/services/consultation',                              0.85, 'weekly'),
+    url('/services/consultation/bookfreeconsultation',         0.8,  'weekly'),
+    ...serviceSlugs.map((slug) => url(`/services/${slug}`,    0.8)),
+  ]
+
+  // ── Solutions ───────────────────────────────────────────────
+  const solutionSlugs = getAllSolutionSlugs()
+  const solutions: MetadataRoute.Sitemap = [
+    url('/solutions', 0.9, 'weekly'),
+    ...solutionSlugs.map((slug) => url(`/solutions/${slug}`, 0.8)),
+  ]
+
+  // ── Blog posts (dynamic) ────────────────────────────────────
+  let blogPosts: MetadataRoute.Sitemap = []
   try {
     const slugs = await getAllPostSlugs()
-    blogPages = slugs.map((slug) => ({
-      url: `${BASE_URL}/blog/${slug}`,
-      lastModified: new Date(),
-      changeFrequency: 'monthly' as const,
-      priority: 0.7,
-    }))
+    blogPosts = slugs.map((slug) => url(`/blog/${slug}`, 0.7))
   } catch {
-    // If DB unavailable during build, continue with static pages only
-    console.warn('[Sitemap] Could not fetch blog slugs')
+    console.warn('[Sitemap] Could not fetch blog slugs — skipping dynamic posts')
   }
 
-  return [...staticPages, ...blogPages]
+  return [...core, ...products, ...services, ...solutions, ...blogPosts]
 }

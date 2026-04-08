@@ -43,8 +43,11 @@ export default function BlogPreview() {
               From the blog
             </p>
             <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] text-void dark:text-whisper">
-              Insights & guides
+              Insights on AI, software, and building digital products
             </h2>
+            <p className="text-void/50 dark:text-whisper/50 max-w-md mt-3 text-sm leading-relaxed">
+              Thoughts from the Z3ymo team on technology, startups, and intelligent systems.
+            </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>

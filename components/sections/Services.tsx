@@ -74,8 +74,11 @@ export default function Services() {
             Services
           </p>
           <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] text-void dark:text-whisper">
-            What we build for you
+            Custom software built around your business
           </h2>
+          <p className="text-void/50 dark:text-whisper/50 max-w-xl mt-4 text-base leading-relaxed">
+            Beyond platforms, Z3ymo designs fully custom systems tailored to complex business needs.
+          </p>
         </ScrollReveal>
 
         {/* Service rows — alternating */}

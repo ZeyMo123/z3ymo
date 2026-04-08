@@ -38,7 +38,7 @@ function DesktopContent() {
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div className="w-10 border-r border-white/5 flex flex-col items-center gap-2 py-2">
-          {["crimson", "emerald", "gold", "white"].map((_, i) => (
+          {["crimson", "emerald", "gold", "white"].map((color, i) => (
             <div key={i} className={`w-4 h-4 rounded-md ${i === 0 ? 'bg-crimson/50' : 'bg-white/8'}`} />
           ))}
         </div>
@@ -64,11 +64,15 @@ function DesktopContent() {
                 <motion.div
                   key={i}
                   className="flex-1 rounded-sm"
-                  style={{ background: i % 3 === 0 ? '#C0392B' : i % 3 === 1 ? '#1B998B' : '#C9A84C', opacity: 0.7, height: `${h}%`, transformOrigin: 'bottom' }}
+                  style={{
+                    background: i % 3 === 0 ? '#C0392B' : i % 3 === 1 ? '#1B998B' : '#C9A84C',
+                    opacity: 0.7,
+                    height: `${h}%`,
+                    transformOrigin: 'bottom',
+                  }}
                   initial={{ scaleY: 0 }}
                   animate={{ scaleY: h / 100 }}
                   transition={{ delay: i * 0.06, duration: 0.5, ease: 'easeOut' }}
-                  //style={{ height: `${h}%`, transformOrigin: 'bottom' }}
                 />
               ))}
             </div>

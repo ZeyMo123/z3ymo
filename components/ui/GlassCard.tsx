@@ -5,11 +5,13 @@ import { motion, useSpring } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 interface GlassCardProps {
-  children: React.ReactNode
-  className?: string
-  tilt?: boolean
-  accent?: 'crimson' | 'emerald' | 'gold' | 'none'
-  onClick?: () => void
+  children:      React.ReactNode
+  className?:    string
+  tilt?:         boolean
+  accent?:       'crimson' | 'emerald' | 'gold' | 'none'
+  onClick?:      () => void
+  onMouseEnter?: (e?: React.MouseEvent<HTMLDivElement>) => void
+  onMouseLeave?: (e?: React.MouseEvent<HTMLDivElement>) => void
 }
 
 export default function GlassCard({
@@ -18,6 +20,8 @@ export default function GlassCard({
   tilt = false,
   accent = 'none',
   onClick,
+  onMouseEnter,
+  onMouseLeave: onMouseLeaveProp,
 }: GlassCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const rotX = useSpring(0, { stiffness: 150, damping: 20 })
@@ -44,9 +48,10 @@ export default function GlassCard({
     })
   }
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
     rotX.set(0)
     rotY.set(0)
+    onMouseLeaveProp?.(e)
   }
 
   return (
@@ -55,6 +60,7 @@ export default function GlassCard({
       style={tilt ? { rotateX: rotX, rotateY: rotY, transformPerspective: 1000 } : {}}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
       onClick={onClick}
       whileHover={tilt ? { scale: 1.01 } : {}}
       className={cn(

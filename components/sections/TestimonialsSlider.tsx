@@ -7,7 +7,9 @@ const TESTIMONIALS = [
   {
     quote: "Z3ymo delivered a premium website in just two weeks. The quality rivals any international agency I've worked with.",
     name: 'Amina K.',
-    role: 'CEO, Nairobi Startup',
+    role: 'CEO',
+    company: 'Nairobi Startup',
+    industry: 'Technology',
     initials: 'AK',
     accent: '#C0392B',
     stars: 5,
@@ -15,7 +17,9 @@ const TESTIMONIALS = [
   {
     quote: "The AI agent they built handles 80% of our customer queries automatically. It's been completely transformative for our team.",
     name: 'David M.',
-    role: 'Founder, RetailTZ',
+    role: 'Founder',
+    company: 'RetailTZ',
+    industry: 'Retail',
     initials: 'DM',
     accent: '#1B998B',
     stars: 5,
@@ -23,7 +27,9 @@ const TESTIMONIALS = [
   {
     quote: "Professional, fast, and genuinely world-class design. Our site looks better than our London competitors.",
     name: 'Sarah O.',
-    role: 'Director, Dar Creative Agency',
+    role: 'Director',
+    company: 'Dar Creative Agency',
+    industry: 'Creative Agency',
     initials: 'SO',
     accent: '#C9A84C',
     stars: 5,
@@ -31,7 +37,9 @@ const TESTIMONIALS = [
   {
     quote: "I was skeptical about AI agents but Z3ymo's consultation changed my mind. Now we save 40 hours a week.",
     name: 'James N.',
-    role: 'Operations Manager, Logistics Co.',
+    role: 'Operations Manager',
+    company: 'Logistics Co.',
+    industry: 'Logistics',
     initials: 'JN',
     accent: '#C0392B',
     stars: 5,
@@ -39,7 +47,9 @@ const TESTIMONIALS = [
   {
     quote: "They understood our market immediately. The app works perfectly even on slow connections — that's rare.",
     name: 'Fatuma A.',
-    role: 'Co-founder, HealthTech Kenya',
+    role: 'Co-founder',
+    company: 'HealthTech Kenya',
+    industry: 'Healthcare',
     initials: 'FA',
     accent: '#1B998B',
     stars: 5,
@@ -47,7 +57,9 @@ const TESTIMONIALS = [
   {
     quote: "The free consultation alone saved us from making a $10,000 mistake. They advised us honestly even when it meant less work for them.",
     name: 'Michael T.',
-    role: 'CTO, Logistics Platform',
+    role: 'CTO',
+    company: 'Logistics Platform',
+    industry: 'Logistics',
     initials: 'MT',
     accent: '#C9A84C',
     stars: 5,
@@ -55,7 +67,9 @@ const TESTIMONIALS = [
   {
     quote: "Z3ymo built our PWA in Swahili and English seamlessly. Our customers in the village can use it without any issues.",
     name: 'Rehema J.',
-    role: 'CEO, AgriTech Tanzania',
+    role: 'CEO',
+    company: 'AgriTech Tanzania',
+    industry: 'Agriculture',
     initials: 'RJ',
     accent: '#C0392B',
     stars: 5,
@@ -63,7 +77,9 @@ const TESTIMONIALS = [
   {
     quote: "Three months after launching with Z3ymo, we closed our first investor round. The site made us look fundable.",
     name: 'Abubakar S.',
-    role: 'Founder, FinTech Startup',
+    role: 'Founder',
+    company: 'FinTech Startup',
+    industry: 'Fintech',
     initials: 'AS',
     accent: '#1B998B',
     stars: 5,
@@ -113,7 +129,15 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
         </div>
         <div>
           <div className="text-sm font-medium text-void dark:text-whisper">{t.name}</div>
-          <div className="text-xs text-void/40 dark:text-whisper/40">{t.role}</div>
+          <div className="text-xs text-void/40 dark:text-whisper/40">
+            {t.role}{(t as any).company ? `, ${(t as any).company}` : ''}
+          </div>
+          {(t as any).industry && (
+            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full mt-1 inline-block"
+              style={{ background: `${t.accent}12`, color: t.accent }}>
+              {(t as any).industry}
+            </span>
+          )}
         </div>
         <div className="ml-auto">
           <div className="w-4 h-4 rounded-full opacity-30" style={{ background: t.accent }} />

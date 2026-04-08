@@ -35,7 +35,7 @@ export async function getPosts({
       .from('categories')
       .select('id')
       .eq('slug', categorySlug)
-      .single()
+      .single<{ id: string }>()
     if (cat) query = query.eq('category_id', cat.id)
   }
 
@@ -167,5 +167,5 @@ export async function getAllPostSlugs(): Promise<string[]> {
     .select('slug')
     .eq('published', true)
 
-  return (data ?? []).map((p) => p.slug)
+  return (data ?? []).map((p: { slug: string }) => p.slug)
 }

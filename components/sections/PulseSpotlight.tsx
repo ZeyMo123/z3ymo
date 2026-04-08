@@ -244,7 +244,7 @@ export default function PulseSpotlight() {
           <div>
             <ScrollReveal>
               <p className="text-xs font-medium tracking-[0.18em] uppercase text-emerald/70 mb-4">
-                Our AI product
+                Our flagship AI product
               </p>
               <h2 className="font-display font-bold text-[clamp(2.5rem,6vw,4.5rem)] text-white leading-[0.95] mb-6">
                 Meet
@@ -253,7 +253,7 @@ export default function PulseSpotlight() {
                 <span className="text-white"> Pulse</span>
               </h2>
               <p className="text-base text-white/50 leading-relaxed mb-10 max-w-md">
-                The WhatsApp AI agent built for African businesses. Automates customer support, bookings, and lead follow-up — 24/7, in English and Swahili.
+                An intelligent agent that monitors your competitors and delivers weekly insights directly to you. Automates customer support, bookings, and lead follow-up — 24/7, in English and Swahili.
               </p>
             </ScrollReveal>
 
@@ -275,11 +275,28 @@ export default function PulseSpotlight() {
               ))}
             </div>
 
+            {/* Live metrics strip */}
+            <ScrollReveal delay={0.15}>
+              <div className="grid grid-cols-2 gap-3 mb-8">
+                {[
+                  { value: '24/7', label: 'Customer support' },
+                  { value: '∞',   label: 'Competitors tracked' },
+                  { value: 'Auto', label: 'Alerts generated' },
+                  { value: 'Weekly', label: 'Market insights' },
+                ].map((m) => (
+                  <div key={m.label} className="px-4 py-3 rounded-2xl bg-white/4 border border-white/8 text-center">
+                    <div className="font-display font-bold text-xl text-white mb-0.5">{m.value}</div>
+                    <div className="text-[11px] text-white/35">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+            </ScrollReveal>
+
             {/* CTAs */}
             <ScrollReveal delay={0.2}>
               <div className="flex flex-wrap gap-3">
-                <MagneticButton href="#pulse-waitlist" variant="primary" size="md">
-                  Join the waitlist
+                <MagneticButton href="/ai-agents/pulse#waitlist" variant="primary" size="md">
+                  Join Waitlist
                 </MagneticButton>
                 <button className="
                   px-6 py-3 rounded-full text-sm font-medium

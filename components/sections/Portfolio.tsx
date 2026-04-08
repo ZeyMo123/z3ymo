@@ -9,8 +9,10 @@ const PROJECTS = [
     id: 'salon-booking',
     title: 'Serenity Salon',
     category: 'Web App',
-    description: 'A modern salon booking system with real-time availability, automated reminders, and WhatsApp notifications.',
-    outcome: '3× more bookings',
+    client: 'Dar es Salaam salon chain',
+    problem: 'Managing bookings over WhatsApp manually — double-bookings and lost appointments were common.',
+    solution: 'Centralized booking platform with real-time availability and automated WhatsApp reminders.',
+    outcome: '3× more bookings, 60% fewer no-shows',
     stack: ['Next.js', 'Supabase', 'Twilio'],
     accent: '#1B998B',
     label: 'Sample project',
@@ -19,8 +21,10 @@ const PROJECTS = [
     id: 'agency-site',
     title: 'Vanguard Creative',
     category: 'Agency Website',
-    description: 'Premium agency site with animated case studies, client portal, and a conversion-optimized contact flow.',
-    outcome: '5× enquiry rate',
+    client: 'Creative agency, Nairobi',
+    problem: '78% bounce rate and only 1–2 enquiries per month despite strong social media traffic.',
+    solution: 'Redesigned site with clear value proposition, animated portfolio, and a 3-step lead qualification flow.',
+    outcome: '5× enquiry rate, 42% lower bounce rate',
     stack: ['Next.js', 'Framer Motion', 'TypeScript'],
     accent: '#C0392B',
     label: 'Sample project',
@@ -29,8 +33,10 @@ const PROJECTS = [
     id: 'ai-customer',
     title: 'RetailBot TZ',
     category: 'AI Agent',
-    description: 'WhatsApp AI agent for a Dar es Salaam retailer — handles 300+ customer queries daily with zero human intervention.',
-    outcome: '300 queries/day automated',
+    client: 'Mid-size Dar es Salaam retailer',
+    problem: 'A team of 3 spending 6+ hours daily answering the same WhatsApp product and order questions.',
+    solution: 'Custom AI agent trained on the product catalogue — handles 85% of queries autonomously.',
+    outcome: '300 queries automated daily, 40 hrs/week saved',
     stack: ['Python', 'OpenAI', 'WhatsApp API'],
     accent: '#C9A84C',
     label: 'Sample project',
@@ -46,11 +52,14 @@ export default function Portfolio() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
           <ScrollReveal>
             <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
-              Portfolio
+              Case Studies
             </p>
             <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] text-void dark:text-whisper">
-              Work we&apos;re proud of
+              Real products. Real outcomes.
             </h2>
+            <p className="text-void/50 dark:text-whisper/50 max-w-md mt-3 text-sm leading-relaxed">
+              A selection of platforms and systems built by Z3ymo.
+            </p>
           </ScrollReveal>
 
           <ScrollReveal delay={0.1}>
@@ -63,7 +72,7 @@ export default function Portfolio() {
                 transition-colors duration-200
               "
             >
-              View full portfolio
+              View all case studies
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
@@ -132,12 +141,25 @@ export default function Portfolio() {
                     </span>
                   </div>
 
-                  <h3 className="font-display font-semibold text-lg text-void dark:text-whisper mb-2">
+                  <h3 className="font-display font-semibold text-lg text-void dark:text-whisper mb-3">
                     {project.title}
                   </h3>
-                  <p className="text-sm text-void/55 dark:text-whisper/55 leading-relaxed mb-4">
-                    {project.description}
-                  </p>
+
+                  {/* Client / Problem / Solution */}
+                  <div className="space-y-2 mb-4">
+                    {[
+                      { key: 'Client',   val: (project as any).client },
+                      { key: 'Problem',  val: (project as any).problem },
+                      { key: 'Solution', val: (project as any).solution },
+                    ].map((row) => (
+                      <div key={row.key} className="flex gap-2 text-xs">
+                        <span className="text-void/30 dark:text-whisper/30 w-14 flex-shrink-0 font-medium pt-0.5">
+                          {row.key}
+                        </span>
+                        <span className="text-void/60 dark:text-whisper/60 leading-relaxed">{row.val}</span>
+                      </div>
+                    ))}
+                  </div>
 
                   {/* Outcome */}
                   <div

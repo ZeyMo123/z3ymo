@@ -9,51 +9,14 @@ import Link from 'next/link'
 
 const PILLARS = [
   {
-    id: 'products',
-    accent: 'gold' as const,
-    label: '01',
-    title: 'Products for sale',
-    description:
-      'Ready-made premium websites and apps — company profiles, agency sites, portfolios. Buy today, launch tomorrow.',
-    href: '#products',
-    cta: 'Browse products',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-        <line x1="8" y1="21" x2="16" y2="21" />
-        <line x1="12" y1="17" x2="12" y2="21" />
-      </svg>
-    ),
-    tags: ['Company sites', 'Agency sites', 'Portfolios', 'Landing pages'],
-  },
-  {
-    id: 'services',
-    accent: 'emerald' as const,
-    label: '02',
-    title: 'Services',
-    description:
-      'Custom web & mobile apps, full-stack development, and free consultations — so you invest in the right solution.',
-    href: '#services',
-    cta: 'See services',
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6" />
-        <polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-    tags: ['Web apps', 'Mobile apps', 'PWA', 'Free consult'],
-  },
-  {
-    id: 'ai',
+    id: 'ai-systems',
     accent: 'crimson' as const,
-    label: '03',
-    title: 'AI agents',
+    label: '01',
+    title: 'AI-powered systems',
     description:
-      'Custom AI agent builds for businesses and Z3ymo Pulse — our WhatsApp AI SaaS built specifically for African SMBs.',
-    href: '#ai-agents',
-    cta: 'Explore AI',
+      'We integrate intelligent automation and data insights directly into the software we build — not bolted on, but built in from day one.',
+    href: '/ai-agents',
+    cta: 'Explore AI agents',
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
         stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -67,7 +30,47 @@ const PILLARS = [
         <line x1="14" y1="12" x2="16" y2="10" />
       </svg>
     ),
-    tags: ['Custom AI agents', 'WhatsApp AI', 'Automation', 'Pulse SaaS'],
+    tags: ['AI automation', 'Intelligent agents', 'Data insights', 'Smart workflows'],
+    metric: { value: '7+', label: 'AI products built' },
+  },
+  {
+    id: 'custom',
+    accent: 'emerald' as const,
+    label: '02',
+    title: 'Custom-built for your business',
+    description:
+      'Every solution is designed around your workflows, not forced into generic templates. We build what your business actually needs.',
+    href: '/services',
+    cta: 'See services',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6" />
+        <polyline points="8 6 2 12 8 18" />
+      </svg>
+    ),
+    tags: ['Web apps', 'Mobile apps', 'Custom software', 'API integrations'],
+    metric: { value: '20+', label: 'Projects delivered' },
+  },
+  {
+    id: 'platforms',
+    accent: 'gold' as const,
+    label: '03',
+    title: 'Launch faster with proven platforms',
+    description:
+      'Our ready-made platforms accelerate development without sacrificing customization — built for real industries, ready in days not months.',
+    href: '/products',
+    cta: 'Browse platforms',
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+        <line x1="8" y1="21" x2="16" y2="21" />
+        <line x1="12" y1="17" x2="12" y2="21" />
+      </svg>
+    ),
+    tags: ['CreatorOS', 'CommerceOS', 'BeautyOS', 'FoodOS'],
+    metric: { value: '7', label: 'Industry platforms' },
   },
 ]
 
@@ -87,13 +90,16 @@ export default function ValueProp() {
         {/* Header */}
         <ScrollReveal className="text-center mb-16">
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
-            What we do
+            Why companies build with Z3ymo
           </p>
           <h2 className="font-display font-bold text-[clamp(2rem,5vw,3.5rem)] text-void dark:text-whisper text-balance">
-            Not just an agency.
+            Software engineering, AI systems,
             <br />
-            <span className="text-void/40 dark:text-whisper/30">A product company with a studio arm.</span>
+            <span className="text-void/40 dark:text-whisper/30">and strategic thinking — combined.</span>
           </h2>
+          <p className="text-void/50 dark:text-whisper/50 max-w-xl mx-auto mt-4 text-base leading-relaxed">
+            We build technology that actually moves businesses forward.
+          </p>
         </ScrollReveal>
 
         {/* Pillars */}
@@ -133,6 +139,18 @@ export default function ValueProp() {
                     </span>
                   ))}
                 </div>
+
+                {/* Micro metric */}
+                {(p as any).metric && (
+                  <div className="flex items-center gap-2 mb-5 pt-4 border-t border-void/8 dark:border-whisper/8">
+                    <span className={`font-display font-bold text-2xl ${accentColors[p.accent]}`}>
+                      {(p as any).metric.value}
+                    </span>
+                    <span className="text-xs text-void/40 dark:text-whisper/40">
+                      {(p as any).metric.label}
+                    </span>
+                  </div>
+                )}
 
                 <Link
                   href={p.href}
