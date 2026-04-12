@@ -153,7 +153,7 @@ export default function Portfolio() {
                       { key: 'Solution', val: (project as any).solution },
                     ].map((row) => (
                       <div key={row.key} className="flex gap-2 text-xs">
-                        <span className="text-void/30 dark:text-whisper/30 w-14 flex-shrink-0 font-medium pt-0.5">
+                        <span className="text-void/30 dark:text-whisper/30 w-14 shrink-0 font-medium pt-0.5">
                           {row.key}
                         </span>
                         <span className="text-void/60 dark:text-whisper/60 leading-relaxed">{row.val}</span>

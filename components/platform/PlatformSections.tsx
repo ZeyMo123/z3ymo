@@ -41,7 +41,7 @@ export function ProblemSection({
             <div className="md:w-1/2 space-y-3">
               {problems.map((problem, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                     style={{ background: `${accent}12` }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round">
                       <line x1="18" y1="6" x2="6" y2="18" />
@@ -66,7 +66,7 @@ export function FeaturesSection({
   headline: string; features: PlatformFeature[]; accent: string
 }) {
   return (
-    <section id="features" className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section id="features" className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal className="mb-14">
           <p className="text-xs font-medium tracking-[0.18em] uppercase mb-4" style={{ color: accent, opacity: 0.7 }}>
@@ -123,7 +123,7 @@ export function AISection({
             <div className="space-y-3">
               {insights.map((insight, i) => (
                 <div key={i} className="flex items-center gap-3 p-4 rounded-2xl border border-void/8 dark:border-whisper/8 bg-void/2 dark:bg-whisper/2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                     style={{ background: `${accent}12` }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round">
                       <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
@@ -148,7 +148,7 @@ export function IndustriesSection({
   industries: string[]; accent: string
 }) {
   return (
-    <section className="py-16 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-16 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-4xl mx-auto text-center">
         <ScrollReveal>
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
@@ -193,7 +193,7 @@ export function AutomationSection({
           {automations.map((item, i) => (
             <ScrollReveal key={i} delay={i * 0.06}>
               <div className="flex items-center gap-3 p-4 rounded-2xl border border-void/8 dark:border-whisper/8">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: `${accent}10` }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2" strokeLinecap="round">
                     <path d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -219,7 +219,7 @@ export function HowItWorksSection({ accent }: { accent: string }) {
   ]
 
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal className="mb-14">
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
@@ -318,7 +318,7 @@ export function BenefitsSection({
   benefits: Array<{ title: string; desc: string }>; accent: string; name: string
 }) {
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal className="mb-12">
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
@@ -332,7 +332,7 @@ export function BenefitsSection({
           {benefits.map((b, i) => (
             <ScrollReveal key={b.title} delay={i * 0.07}>
               <div className="flex items-start gap-4 p-6 rounded-2xl border border-void/8 dark:border-whisper/8">
-                <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                   style={{ background: `${accent}10` }}>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={accent} strokeWidth="2.5" strokeLinecap="round">
                     <polyline points="20 6 9 17 4 12" />

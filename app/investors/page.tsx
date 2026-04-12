@@ -225,26 +225,26 @@ export default function InvestorsPage() {
                       <h3 className="font-display font-bold text-xl text-void dark:text-whisper mb-0.5">{p.name}</h3>
                       <span className="text-xs text-void/40 dark:text-whisper/40">{p.category}</span>
                     </div>
-                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full flex-shrink-0"
+                    <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full shrink-0"
                       style={{ background: `${p.statusColor}15`, color: p.statusColor, border: `1px solid ${p.statusColor}30` }}>
                       {p.status}
                     </span>
                   </div>
                   <div className="space-y-3 text-sm">
                     <div className="flex gap-3">
-                      <span className="text-void/35 dark:text-whisper/35 w-20 flex-shrink-0">Market</span>
+                      <span className="text-void/35 dark:text-whisper/35 w-20 shrink-0">Market</span>
                       <span className="text-void/65 dark:text-whisper/65">{p.tam}</span>
                     </div>
                     <div className="flex gap-3">
-                      <span className="text-void/35 dark:text-whisper/35 w-20 flex-shrink-0">Model</span>
+                      <span className="text-void/35 dark:text-whisper/35 w-20 shrink-0">Model</span>
                       <span className="text-void/65 dark:text-whisper/65">{p.model}</span>
                     </div>
                     <div className="flex gap-3">
-                      <span className="text-void/35 dark:text-whisper/35 w-20 flex-shrink-0">Moat</span>
+                      <span className="text-void/35 dark:text-whisper/35 w-20 shrink-0">Moat</span>
                       <span className="text-void/65 dark:text-whisper/65">{p.moat}</span>
                     </div>
                     <div className="flex gap-3">
-                      <span className="text-void/35 dark:text-whisper/35 w-20 flex-shrink-0">Timeline</span>
+                      <span className="text-void/35 dark:text-whisper/35 w-20 shrink-0">Timeline</span>
                       <span className="font-medium" style={{ color: p.accent }}>{p.timeline}</span>
                     </div>
                   </div>
@@ -288,16 +288,16 @@ export default function InvestorsPage() {
             </h2>
           </ScrollReveal>
           <div className="relative">
-            <div className="absolute left-[88px] top-0 bottom-0 w-px bg-void/8 dark:bg-whisper/8" />
+            <div className="absolute left-22 top-0 bottom-0 w-px bg-void/8 dark:bg-whisper/8" />
             {ROADMAP.map((item, i) => (
               <ScrollReveal key={i} delay={i * 0.06}>
                 <div className="flex items-center gap-8 py-7 border-b border-void/5 dark:border-whisper/5 last:border-0">
-                  <div className="w-[88px] text-right flex-shrink-0">
+                  <div className="w-22 text-right shrink-0">
                     <span className={`text-xs font-semibold ${item.done ? 'text-emerald' : 'text-void/35 dark:text-whisper/35'}`}>
                       {item.period}
                     </span>
                   </div>
-                  <div className="relative flex-shrink-0">
+                  <div className="relative shrink-0">
                     <div className={`w-3 h-3 rounded-full border-2 ${item.done
                       ? 'bg-emerald border-emerald'
                       : 'bg-whisper dark:bg-void border-void/20 dark:border-whisper/20'}`} />

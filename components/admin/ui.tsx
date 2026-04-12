@@ -42,7 +42,7 @@ export function LoadingState({ message = 'Loading…', rows = 5 }: { message?: s
       <div className="space-y-3 p-1">
         {Array.from({ length: rows }).map((_, i) => (
           <div key={i} className="flex items-center gap-4">
-            <div className="h-9 w-9 rounded-xl bg-void/6 dark:bg-whisper/6 flex-shrink-0" />
+            <div className="h-9 w-9 rounded-xl bg-void/6 dark:bg-whisper/6 shrink-0" />
             <div className="flex-1 space-y-1.5">
               <div className="h-3 rounded-full bg-void/6 dark:bg-whisper/6"
                 style={{ width: `${70 - (i % 3) * 10}%` }} />
@@ -142,7 +142,7 @@ export function StatsCard({
     <div className="bg-white dark:bg-void-900 rounded-2xl border border-void/8 dark:border-whisper/8 p-5">
       <div className="flex items-start justify-between mb-3">
         <p className="text-xs font-medium text-void/40 dark:text-whisper/40 uppercase tracking-wider">{label}</p>
-        <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+        <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
           style={{ background: `${accent}12`, color: accent }}>
           {icon}
         </div>
@@ -205,7 +205,7 @@ export function PageHeader({
         <h1 className="font-display font-bold text-2xl text-void dark:text-whisper">{title}</h1>
         {subtitle && <p className="text-sm text-void/45 dark:text-whisper/45 mt-1">{subtitle}</p>}
       </div>
-      {action && <div className="flex-shrink-0">{action}</div>}
+      {action && <div className="shrink-0">{action}</div>}
     </div>
   )
 }

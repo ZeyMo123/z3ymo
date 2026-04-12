@@ -137,7 +137,7 @@ function ConfirmationContent() {
               className="rounded-2xl border border-emerald/25 bg-emerald/3 p-6 mb-8"
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-9 h-9 rounded-xl bg-emerald/12 flex items-center justify-center flex-shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-emerald/12 flex items-center justify-center shrink-0">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1B998B" strokeWidth="1.8" strokeLinecap="round">
                     <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
                   </svg>
@@ -184,7 +184,7 @@ function ConfirmationContent() {
             <div className="space-y-4">
               {PREP_ITEMS.map((item, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-2xl bg-void/4 dark:bg-whisper/4 flex items-center justify-center flex-shrink-0 text-lg">
+                  <div className="w-10 h-10 rounded-2xl bg-void/4 dark:bg-whisper/4 flex items-center justify-center shrink-0 text-lg">
                     {item.icon}
                   </div>
                   <div>
@@ -213,7 +213,7 @@ function ConfirmationContent() {
             <div className="space-y-4">
               {NEXT_STEPS.map((s, i) => (
                 <div key={i} className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 bg-crimson/8 border border-crimson/15">
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 bg-crimson/8 border border-crimson/15">
                     <span className="font-display font-bold text-xs text-crimson">{s.step}</span>
                   </div>
                   <div>

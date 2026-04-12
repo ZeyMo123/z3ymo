@@ -131,7 +131,7 @@ function ComparisonSection() {
   ]
 
   return (
-    <section className="py-24 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-24 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal className="text-center mb-14">
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
@@ -157,7 +157,7 @@ function ComparisonSection() {
               <div className="space-y-3">
                 {WITHOUT.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm text-void/55 dark:text-whisper/55">
-                    <div className="w-4 h-4 rounded-full bg-void/8 dark:bg-whisper/8 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-4 h-4 rounded-full bg-void/8 dark:bg-whisper/8 flex items-center justify-center shrink-0 mt-0.5">
                       <div className="w-1.5 h-0.5 rounded-full bg-void/30 dark:bg-whisper/30" />
                     </div>
                     {item}
@@ -181,7 +181,7 @@ function ComparisonSection() {
               <div className="space-y-3">
                 {WITH.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm text-void/65 dark:text-whisper/65">
-                    <div className="w-4 h-4 rounded-full bg-crimson/12 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <div className="w-4 h-4 rounded-full bg-crimson/12 flex items-center justify-center shrink-0 mt-0.5">
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#C0392B" strokeWidth="3" strokeLinecap="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
@@ -306,7 +306,7 @@ export default function PlatformsPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+      <section className="py-24 px-6 bg-void/1.5 dark:bg-whisper/1.5">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal className="mb-14">
             <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">

@@ -18,7 +18,7 @@ function StatusBadge({ status, label }: { status: string; label: string }) {
   const s = STATUS_STYLES[status as keyof typeof STATUS_STYLES] ?? STATUS_STYLES['coming-soon']
   return (
     <span className={`inline-flex items-center gap-1.5 text-[10px] font-semibold px-2.5 py-1 rounded-full ${s.bg} ${s.text}`}>
-      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${s.dot}`} />
+      <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
       {label}
     </span>
   )
@@ -44,7 +44,7 @@ function PlatformMiniCard({ platform, index }: { platform: typeof PLATFORMS[0]; 
             <h3 className="font-display font-bold text-lg text-void dark:text-whisper">
               {platform.name}
             </h3>
-            <span className="text-[10px] font-semibold px-2 py-1 rounded-full flex-shrink-0 ml-2"
+            <span className="text-[10px] font-semibold px-2 py-1 rounded-full shrink-0 ml-2"
               style={{ background: `${platform.accent}10`, color: platform.accent }}>
               {platform.price}
             </span>
@@ -122,7 +122,7 @@ function OwnProductCard({ product, index }: { product: typeof OWN_PRODUCTS[0]; i
               <StatusBadge status={product.status} label={product.statusLabel} />
             </div>
             {/* Accent accent circle */}
-            <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center shrink-0"
               style={{ background: `${product.accent}12`, border: `1px solid ${product.accent}20` }}>
               <div className="w-3 h-3 rounded-full" style={{ background: product.accent }} />
             </div>
@@ -360,7 +360,7 @@ export default function ProductsPage() {
       </section>
 
       {/* ── How it works ──────────────────────────────── */}
-      <section className="py-24 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+      <section className="py-24 px-6 bg-void/1.5 dark:bg-whisper/1.5">
         <div className="max-w-5xl mx-auto">
           <ScrollReveal className="text-center mb-14">
             <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/40 dark:text-whisper/40 mb-4">
@@ -379,7 +379,7 @@ export default function ProductsPage() {
                   {i < HOW_STEPS.length - 1 && (
                     <div
                       aria-hidden="true"
-                      className="hidden lg:block absolute top-5 left-[calc(2.5rem+12px)] right-0 h-px bg-void/10 dark:bg-whisper/10 z-0"
+                      className="hidden lg:block absolute top-5 left-13 right-0 h-px bg-void/10 dark:bg-whisper/10 z-0"
                     />
                   )}
                   <div className="relative z-10">

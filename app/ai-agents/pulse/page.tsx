@@ -203,7 +203,7 @@ function ChatDemo() {
       </div>
 
       {/* Phone frame */}
-      <div className="w-[300px] bg-[#111827] rounded-[32px] p-3 border border-white/8 shadow-2xl mx-auto">
+      <div className="w-75 bg-[#111827] rounded-[32px] p-3 border border-white/8 shadow-2xl mx-auto">
         {/* Status bar */}
         <div className="flex justify-between px-3 py-1 mb-1">
           <span className="text-[9px] text-white/30">9:41</span>
@@ -227,7 +227,7 @@ function ChatDemo() {
         </div>
 
         {/* Messages */}
-        <div className="min-h-[260px] flex flex-col gap-2 px-2 pb-3">
+        <div className="min-h-65 flex flex-col gap-2 px-2 pb-3">
           <AnimatePresence initial={false}>
             {messages.slice(0, visibleCount).map((msg, i) => (
               <motion.div
@@ -237,10 +237,10 @@ function ChatDemo() {
                 transition={{ duration: 0.22 }}
                 className={`flex ${msg.from === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                <div className={`text-[11px] px-3 py-2 rounded-2xl max-w-[220px] leading-[1.5] whitespace-pre-line
+                <div className={`text-[11px] px-3 py-2 rounded-2xl max-w-55 leading-normal whitespace-pre-line
                   ${msg.from === 'user'
                     ? 'bg-emerald text-white rounded-tr-sm'
-                    : 'bg-[#2A2A3D] text-white/80 rounded-tl-sm'
+                    : 'bg-surface text-white/80 rounded-tl-sm'
                   }`}
                 >
                   {msg.text}
@@ -256,7 +256,7 @@ function ChatDemo() {
                 exit={{ opacity: 0 }}
                 className="flex justify-start"
               >
-                <div className="bg-[#2A2A3D] px-3.5 py-2.5 rounded-2xl rounded-tl-sm flex gap-1 items-center">
+                <div className="bg-surface px-3.5 py-2.5 rounded-2xl rounded-tl-sm flex gap-1 items-center">
                   {[0, 1, 2].map((i) => (
                     <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/40 typing-dot"
                       style={{ animationDelay: `${i * 0.2}s` }} />
@@ -269,10 +269,10 @@ function ChatDemo() {
 
         {/* Input */}
         <div className="flex gap-2 px-2 mt-1">
-          <div className="flex-1 bg-[#2A2A3D] rounded-full px-3 py-2">
+          <div className="flex-1 bg-surface rounded-full px-3 py-2">
             <div className="text-[9px] text-white/20">Message</div>
           </div>
-          <div className="w-7 h-7 rounded-full bg-emerald flex items-center justify-center flex-shrink-0">
+          <div className="w-7 h-7 rounded-full bg-emerald flex items-center justify-center shrink-0">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" /></svg>
           </div>
         </div>
@@ -420,7 +420,7 @@ function FAQ() {
             <motion.span
               animate={{ rotate: open === i ? 45 : 0 }}
               transition={{ duration: 0.2 }}
-              className="text-void/30 dark:text-whisper/30 text-xl flex-shrink-0 ml-4"
+              className="text-void/30 dark:text-whisper/30 text-xl shrink-0 ml-4"
             >
               +
             </motion.span>
@@ -459,9 +459,9 @@ export default function PulsePage() {
         <div aria-hidden="true" className="absolute inset-0 pointer-events-none opacity-[0.025]"
           style={{ backgroundImage: 'linear-gradient(rgba(192,57,43,1) 1px, transparent 1px), linear-gradient(90deg, rgba(192,57,43,1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
         {/* Glows */}
-        <div aria-hidden="true" className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full opacity-10 pointer-events-none"
+        <div aria-hidden="true" className="absolute top-0 left-0 w-150 h-150 rounded-full opacity-10 pointer-events-none"
           style={{ background: 'radial-gradient(circle, #C0392B, transparent)', filter: 'blur(80px)' }} />
-        <div aria-hidden="true" className="absolute bottom-0 right-0 w-[500px] h-[500px] rounded-full opacity-8 pointer-events-none"
+        <div aria-hidden="true" className="absolute bottom-0 right-0 w-125 h-125 rounded-full opacity-8 pointer-events-none"
           style={{ background: 'radial-gradient(circle, #1B998B, transparent)', filter: 'blur(80px)' }} />
 
         <div className="max-w-6xl mx-auto w-full pt-28">
@@ -564,7 +564,7 @@ export default function PulsePage() {
                   <ul className="space-y-3 mb-8">
                     {tier.features.map((f) => (
                       <li key={f} className="flex items-start gap-2.5 text-sm text-void/60 dark:text-whisper/60">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B998B" strokeWidth="2.5" strokeLinecap="round" className="flex-shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1B998B" strokeWidth="2.5" strokeLinecap="round" className="shrink-0 mt-0.5"><polyline points="20 6 9 17 4 12" /></svg>
                         {f}
                       </li>
                     ))}

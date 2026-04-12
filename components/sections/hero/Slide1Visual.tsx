@@ -179,7 +179,7 @@ export default function Slide1Visual({ isActive }: { isActive: boolean }) {
 
       <svg
         viewBox="0 0 400 400"
-        className="w-full h-full max-w-[420px]"
+        className="w-full h-full max-w-105"
         style={{ overflow: 'visible' }}
       >
         {/* Background subtle grid */}

@@ -84,7 +84,7 @@ export default function WaitlistPage() {
               <motion.tr key={e.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.02 }}
                 className="hover:bg-void/2 dark:hover:bg-whisper/2 transition-colors">
                 <td className="px-5 py-3.5 text-sm text-void dark:text-whisper">{e.name ?? '—'}</td>
-                <td className="px-5 py-3.5 text-sm text-void/65 dark:text-whisper/65 font-mono text-xs">{e.email}</td>
+                <td className="px-5 py-3.5 text-sm text-void/65 dark:text-whisper/65 font-mono">{e.email}</td>
                 <td className="px-5 py-3.5">
                   <span className="text-[10px] font-bold uppercase px-2 py-1 rounded-md" style={{ background: `${COLORS[e.product]}15`, color: COLORS[e.product] }}>{e.product}</span>
                 </td>

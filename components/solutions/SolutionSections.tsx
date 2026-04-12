@@ -160,7 +160,7 @@ export function PainSection({ headline, points, accent }: {
                   transition={{ delay: i * 0.07 }}
                   className="flex items-start gap-3.5"
                 >
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                     style={{ background: `${accent}12` }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
                       stroke={accent} strokeWidth="2.5" strokeLinecap="round">
@@ -184,7 +184,7 @@ export function SolutionSection({ headline, message, capabilities, accent }: {
   headline: string; message: string; capabilities: string[]; accent: string
 }) {
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <ScrollReveal>
@@ -203,7 +203,7 @@ export function SolutionSection({ headline, message, capabilities, accent }: {
             <div className="space-y-3">
               {capabilities.map((cap, i) => (
                 <div key={i} className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                     style={{ background: `${accent}12` }}>
                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
                       stroke={accent} strokeWidth="2.5" strokeLinecap="round">
@@ -277,7 +277,7 @@ export function UseCasesSection({ headline, useCases, accent }: {
   headline: string; useCases: UseCase[]; accent: string
 }) {
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal className="mb-12">
           <p className="text-xs font-medium tracking-[0.18em] uppercase text-void/35 dark:text-whisper/35 mb-4">
@@ -306,7 +306,7 @@ export function UseCasesSection({ headline, useCases, accent }: {
                 <div className="space-y-2">
                   {uc.points.map((point) => (
                     <div key={point} className="flex items-start gap-2.5 text-sm text-void/60 dark:text-whisper/60">
-                      <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{ background: accent }} />
+                      <div className="w-1 h-1 rounded-full mt-2 shrink-0" style={{ background: accent }} />
                       {point}
                     </div>
                   ))}
@@ -339,7 +339,7 @@ export function WorkflowSection({ headline, steps, accent }: {
 
         <div className="relative">
           {/* Vertical connector */}
-          <div className="absolute left-[19px] top-8 bottom-8 w-px bg-void/8 dark:bg-whisper/8 hidden sm:block" />
+          <div className="absolute left-4.75 top-8 bottom-8 w-px bg-void/8 dark:bg-whisper/8 hidden sm:block" />
 
           <div className="space-y-4">
             {steps.map((step, i) => (
@@ -353,7 +353,7 @@ export function WorkflowSection({ headline, steps, accent }: {
                 >
                   {/* Step circle */}
                   <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 border-2 relative z-10 bg-white dark:bg-void-900"
+                    className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 border-2 relative z-10 bg-white dark:bg-void-900"
                     style={{
                       borderColor: i === 0 || i === steps.length - 1 ? accent : `${accent}40`,
                       background:  i === 0 || i === steps.length - 1 ? `${accent}10` : 'transparent',
@@ -390,7 +390,7 @@ export function AISection({ headline, message, examples, accent }: {
   headline: string; message: string; examples: string[]; accent: string
 }) {
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <ScrollReveal>
@@ -409,7 +409,7 @@ export function AISection({ headline, message, examples, accent }: {
             <div className="space-y-3">
               {examples.map((ex, i) => (
                 <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-void/8 dark:border-whisper/8 bg-white dark:bg-void-900/50">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                     style={{ background: `${accent}10` }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke={accent} strokeWidth="2" strokeLinecap="round">
@@ -475,7 +475,7 @@ export function CaseStudySection({ caseStudy, accent }: {
             <div className="p-7 space-y-5">
               {rows.map(({ label, value, icon }) => (
                 <div key={label} className="flex items-start gap-4">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0"
                     style={{ background: `${accent}08` }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
                       stroke={accent} strokeWidth="1.8" strokeLinecap="round">
@@ -504,7 +504,7 @@ export function ComparisonSection({ title, without, withZ3ymo, accent }: {
   title: string; without: string[]; withZ3ymo: string[]; accent: string
 }) {
   return (
-    <section className="py-20 px-6 bg-void/[0.015] dark:bg-whisper/[0.015]">
+    <section className="py-20 px-6 bg-void/1.5 dark:bg-whisper/1.5">
       <div className="max-w-5xl mx-auto">
         <ScrollReveal className="text-center mb-12">
           <h2 className="font-display font-bold text-[clamp(1.8rem,3.5vw,2.6rem)] text-void dark:text-whisper">
@@ -529,7 +529,7 @@ export function ComparisonSection({ title, without, withZ3ymo, accent }: {
               <div className="space-y-3">
                 {without.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm text-void/55 dark:text-whisper/55">
-                    <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0 bg-void/20 dark:bg-whisper/20" />
+                    <div className="w-1 h-1 rounded-full mt-2 shrink-0 bg-void/20 dark:bg-whisper/20" />
                     {item}
                   </div>
                 ))}
@@ -554,7 +554,7 @@ export function ComparisonSection({ title, without, withZ3ymo, accent }: {
               <div className="space-y-3">
                 {withZ3ymo.map((item, i) => (
                   <div key={i} className="flex items-start gap-3 text-sm text-void/65 dark:text-whisper/65">
-                    <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                    <div className="w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5"
                       style={{ background: `${accent}12` }}>
                       <svg width="8" height="8" viewBox="0 0 24 24" fill="none"
                         stroke={accent} strokeWidth="3" strokeLinecap="round">

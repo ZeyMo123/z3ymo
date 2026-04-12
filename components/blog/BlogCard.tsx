@@ -29,7 +29,7 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
           bg-void/2 dark:bg-whisper/2
         ">
           {/* Image */}
-          <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden bg-void/5 dark:bg-whisper/5">
+          <div className="relative aspect-4/3 md:aspect-auto overflow-hidden bg-void/5 dark:bg-whisper/5">
             {post.cover_image ? (
               <Image
                 src={post.cover_image}
@@ -113,7 +113,7 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
     return (
       <Link href={`/blog/${post.slug}`} className="group flex gap-4 items-start">
         <div className="
-          flex-shrink-0 w-16 h-16 rounded-xl overflow-hidden
+          shrink-0 w-16 h-16 rounded-xl overflow-hidden
           bg-void/5 dark:bg-whisper/5
           relative
         ">
@@ -157,7 +157,7 @@ export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
         hover:bg-void/4 dark:hover:bg-whisper/4
       ">
         {/* Cover image */}
-        <div className="relative aspect-[16/9] overflow-hidden bg-void/5 dark:bg-whisper/5">
+        <div className="relative aspect-video overflow-hidden bg-void/5 dark:bg-whisper/5">
           {post.cover_image ? (
             <Image
               src={post.cover_image}

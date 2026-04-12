@@ -1,10 +1,18 @@
 import { createClient } from '@supabase/supabase-js'
 
 // ─── Database type ─────────────────────────────────────────────
-// supabase-js v2 requires Views, Functions, Enums, CompositeTypes
-// at schema level and Relationships + Update at table level.
-// Without these the generic resolution collapses every Insert/Update
-// type to `never`, breaking all insert/upsert/rpc calls.
+//
+// supabase-js v2 infers join types from the Relationships array.
+// Without a relationship entry for posts.category_id → categories.id,
+// `.select('*, categories(...)')` returns SelectQueryError instead of
+// the category row — which is exactly what caused the 4 type errors in
+// queries.ts. The Relationships entry below tells the SDK that
+// posts.category_id is a FK into categories.id so it can resolve the
+// join and type `categories` correctly.
+//
+// Every table also needs Views, Functions, Enums, CompositeTypes at the
+// schema level so supabase-js v2's generic resolution doesn't collapse
+// Insert / Update types to `never`.
 
 export type Database = {
   public: {
@@ -20,7 +28,7 @@ export type Database = {
           cover_alt:    string | null
           category_id:  string | null
           author_name:  string
-          author_avatar:string | null
+          author_avatar: string | null
           author_role:  string | null
           read_time:    number
           featured:     boolean
@@ -31,27 +39,38 @@ export type Database = {
           updated_at:   string
         }
         Insert: {
-          id?:          string
-          title:        string
-          slug:         string
-          excerpt:      string
-          content:      string
-          cover_image?: string | null
-          cover_alt?:   string | null
-          category_id?: string | null
-          author_name?: string
-          author_avatar?:string | null
-          author_role?: string | null
-          read_time?:   number
-          featured?:    boolean
-          published?:   boolean
-          published_at?:string | null
-          views?:       number
-          created_at?:  string
-          updated_at?:  string
+          id?:           string
+          title:         string
+          slug:          string
+          excerpt:       string
+          content:       string
+          cover_image?:  string | null
+          cover_alt?:    string | null
+          category_id?:  string | null
+          author_name?:  string
+          author_avatar?: string | null
+          author_role?:  string | null
+          read_time?:    number
+          featured?:     boolean
+          published?:    boolean
+          published_at?: string | null
+          views?:        number
+          created_at?:   string
+          updated_at?:   string
         }
         Update: Partial<Database['public']['Tables']['posts']['Insert']>
-        Relationships: []
+        // ← This is the key fix: tells supabase-js that category_id is
+        //   a FK into categories so `.select('*, categories(...)')` types
+        //   correctly instead of returning SelectQueryError.
+        Relationships: [
+          {
+            foreignKeyName:     'posts_category_id_fkey'
+            columns:            ['category_id']
+            isOneToOne:         false
+            referencedRelation: 'categories'
+            referencedColumns:  ['id']
+          },
+        ]
       }
       categories: {
         Row: {
@@ -103,14 +122,14 @@ export type Database = {
           created_at: string
         }
         Insert: {
-          id?:        string
-          name?:      string | null
-          email?:     string | null
-          message?:   string | null
-          context?:   string | null
-          channel?:   string
-          status?:    string
-          created_at?:string
+          id?:         string
+          name?:       string | null
+          email?:      string | null
+          message?:    string | null
+          context?:    string | null
+          channel?:    string
+          status?:     string
+          created_at?: string
         }
         Update: Partial<Database['public']['Tables']['contacts']['Insert']>
         Relationships: []

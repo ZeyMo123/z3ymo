@@ -59,7 +59,7 @@ function ProductsMenu() {
           <Link
             key={item.name}
             href={item.href}
-            className="block py-2 text-sm hover:text-[#C9A84C]"
+            className="block py-2 text-sm hover:text-gold"
           >
             {item.name}
           </Link>

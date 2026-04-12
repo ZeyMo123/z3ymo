@@ -93,7 +93,7 @@ export default function Services() {
                 `}
               >
                 {/* Left: number + accent bar */}
-                <div className="flex items-start gap-4 md:w-16 flex-shrink-0 pt-1">
+                <div className="flex items-start gap-4 md:w-16 shrink-0 pt-1">
                   <div className="flex flex-col items-center gap-3">
                     <span
                       className={`font-display font-bold text-5xl leading-none ${s.accent} opacity-20`}
@@ -101,7 +101,7 @@ export default function Services() {
                       {s.num}
                     </span>
                     <div
-                      className="w-0.5 flex-1 min-h-[40px] rounded-full"
+                      className="w-0.5 flex-1 min-h-10 rounded-full"
                       style={{ background: s.bar, opacity: 0.3 }}
                     />
                   </div>

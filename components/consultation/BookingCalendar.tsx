@@ -364,7 +364,7 @@ export default function BookingCalendar({ formData, onBooked, onBack }: Props) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="flex flex-col items-center justify-center h-full min-h-[200px] text-center"
+                  className="flex flex-col items-center justify-center h-full min-h-50 text-center"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-void/5 dark:bg-whisper/5 flex items-center justify-center mb-3">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"
@@ -427,7 +427,7 @@ export default function BookingCalendar({ formData, onBooked, onBack }: Props) {
 
                         {bookingError && (
                           <div className="flex items-start gap-2 text-sm text-crimson mb-3">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="flex-shrink-0 mt-0.5">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0 mt-0.5">
                               <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" />
                             </svg>
                             {bookingError}

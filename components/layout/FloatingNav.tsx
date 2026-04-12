@@ -173,7 +173,7 @@ function Tag({ label }: { label: string }) {
         ? 'bg-crimson/10 text-crimson'
         : 'bg-void/8 dark:bg-whisper/8 text-void/35 dark:text-whisper/35'
   return (
-    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ml-2 flex-shrink-0 ${cls}`}>
+    <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-md ml-2 shrink-0 ${cls}`}>
       {label}
     </span>
   )
@@ -186,7 +186,7 @@ function ProductsMenu({ reduced }: { reduced: boolean }) {
   const list = showOwn ? OWN_PRODUCTS : PLATFORMS
 
   return (
-    <div className="grid grid-cols-2 gap-0 min-w-[600px]">
+    <div className="grid grid-cols-2 gap-0 min-w-150">
       <div className="border-r border-void/8 dark:border-whisper/8 pr-6">
         {/* Tab toggle */}
         <div className="flex mb-4 border border-void/10 dark:border-whisper/10 rounded-xl overflow-hidden">
@@ -251,7 +251,7 @@ function ProductsMenu({ reduced }: { reduced: boolean }) {
 
 function SolutionsMenu({ reduced }: { reduced: boolean }) {
   return (
-    <div className="min-w-[380px]">
+    <div className="min-w-95">
       <motion.p variants={ITEM_V} initial="hidden" animate="visible"
         className="text-[10px] font-semibold tracking-[0.15em] uppercase text-void/30 dark:text-whisper/30 mb-3">
         Industry solutions
@@ -280,7 +280,7 @@ function SolutionsMenu({ reduced }: { reduced: boolean }) {
 
 function ServicesMenu({ reduced }: { reduced: boolean }) {
   return (
-    <div className="min-w-[480px]">
+    <div className="min-w-120">
       <div className="grid grid-cols-3 gap-6">
         {SERVICES_NAV.map((cat) => (
           <motion.div key={cat.category} variants={reduced ? undefined : STAGGER} initial="hidden" animate="visible">
@@ -311,7 +311,7 @@ function ServicesMenu({ reduced }: { reduced: boolean }) {
 function AIAgentsMenu({ reduced }: { reduced: boolean }) {
   return (
     <motion.div variants={reduced ? undefined : STAGGER} initial="hidden" animate="visible"
-      className="min-w-[400px]">
+      className="min-w-100">
       <motion.p variants={ITEM_V}
         className="text-[10px] font-semibold tracking-[0.15em] uppercase text-void/30 dark:text-whisper/30 mb-3">
         AI capabilities
@@ -343,7 +343,7 @@ function AIAgentsMenu({ reduced }: { reduced: boolean }) {
 // Combined Resources menu
 function ResourcesMenu({ reduced }: { reduced: boolean }) {
   return (
-    <div className="min-w-[620px]">
+    <div className="min-w-155">
       <div className="grid grid-cols-3 gap-8">
         {RESOURCES_COLS.map((col) => (
           <motion.div key={col.group} variants={reduced ? undefined : STAGGER} initial="hidden" animate="visible">
@@ -575,7 +575,7 @@ export default function FloatingNav() {
 
             {/* Logo */}
             <Link href="/" onClick={() => { setActiveMenu(null); closeMobile() }}
-              className="font-display font-bold text-xl text-void dark:text-whisper tracking-tight flex-shrink-0 hover:text-crimson transition-colors duration-150">
+              className="font-display font-bold text-xl text-void dark:text-whisper tracking-tight shrink-0 hover:text-crimson transition-colors duration-150">
               Z3ymo
             </Link>
 
@@ -594,7 +594,7 @@ export default function FloatingNav() {
             </nav>
 
             {/* Right */}
-            <div className="flex items-center gap-2 ml-auto flex-shrink-0">
+            <div className="flex items-center gap-2 ml-auto shrink-0">
               <ThemeToggle />
               <MagneticButton
                 onClick={() => setDrawerOpen(true)}
@@ -606,7 +606,7 @@ export default function FloatingNav() {
               {/* Animated hamburger */}
               <motion.button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="lg:hidden w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-xl text-void/65 dark:text-whisper/65 hover:bg-void/8 dark:hover:bg-whisper/8 transition-colors cursor-pointer"
+                className="lg:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.25 rounded-xl text-void/65 dark:text-whisper/65 hover:bg-void/8 dark:hover:bg-whisper/8 transition-colors cursor-pointer"
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileOpen}
               >
@@ -672,7 +672,7 @@ export default function FloatingNav() {
               className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm lg:hidden flex flex-col bg-whisper dark:bg-void shadow-2xl"
             >
               {/* Drawer header */}
-              <div className="flex items-center justify-between px-5 h-16 border-b border-void/8 dark:border-whisper/8 flex-shrink-0">
+              <div className="flex items-center justify-between px-5 h-16 border-b border-void/8 dark:border-whisper/8 shrink-0">
                 <Link href="/" onClick={closeMobile}
                   className="font-display font-bold text-lg text-void dark:text-whisper hover:text-crimson transition-colors">
                   Z3ymo
@@ -743,7 +743,7 @@ export default function FloatingNav() {
               </div>
 
               {/* Sticky footer CTA */}
-              <div className="flex-shrink-0 border-t border-void/8 dark:border-whisper/8 px-4 py-4 space-y-2.5">
+              <div className="shrink-0 border-t border-void/8 dark:border-whisper/8 px-4 py-4 space-y-2.5">
                 <MagneticButton
                   onClick={() => { closeMobile(); setDrawerOpen(true) }}
                   variant="primary"

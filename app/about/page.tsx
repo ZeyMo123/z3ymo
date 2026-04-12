@@ -218,19 +218,19 @@ export default function AboutPage() {
 
           <div className="relative">
             {/* Vertical line */}
-            <div className="absolute left-[72px] top-0 bottom-0 w-px bg-void/8 dark:bg-whisper/8" />
+            <div className="absolute left-18 top-0 bottom-0 w-px bg-void/8 dark:bg-whisper/8" />
 
             <div className="space-y-0">
               {MILESTONES.map((m, i) => (
                 <ScrollReveal key={i} delay={i * 0.08}>
                   <div className="flex gap-8 py-8 items-center">
-                    <div className="w-[72px] text-right flex-shrink-0">
+                    <div className="w-18 text-right shrink-0">
                       <span className="text-xs font-semibold text-void/40 dark:text-whisper/40">
                         {m.year}
                       </span>
                     </div>
                     {/* Dot */}
-                    <div className="relative flex-shrink-0">
+                    <div className="relative shrink-0">
                       <div className="w-3 h-3 rounded-full border-2 border-crimson bg-whisper dark:bg-void" />
                     </div>
                     <p className="text-void/70 dark:text-whisper/70 text-sm leading-relaxed">

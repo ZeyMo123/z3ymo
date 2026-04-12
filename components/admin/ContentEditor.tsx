@@ -226,7 +226,7 @@ export default function ContentEditor({ initial = {}, mode }: Props) {
 
           {/* Content */}
           {preview ? (
-            <div className="min-h-[500px] p-6 rounded-2xl border border-void/8 dark:border-whisper/8 bg-white dark:bg-gray-950 prose prose-sm dark:prose-invert max-w-none">
+            <div className="min-h-125 p-6 rounded-2xl border border-void/8 dark:border-whisper/8 bg-white dark:bg-gray-950 prose prose-sm dark:prose-invert max-w-none">
               <pre className="whitespace-pre-wrap text-sm text-void/70 dark:text-whisper/70 font-sans leading-relaxed">{content || 'Nothing to preview yet…'}</pre>
             </div>
           ) : (
@@ -242,7 +242,7 @@ Use markdown formatting. Code blocks, **bold**, _italic_, and more.
 ```typescript
 const example = 'code block'
 ```"
-              className="w-full min-h-[520px] px-5 py-4 rounded-2xl border border-void/8 dark:border-whisper/8 bg-white dark:bg-gray-950 text-void dark:text-whisper text-sm font-mono leading-relaxed placeholder:text-void/25 dark:placeholder:text-whisper/25 focus:outline-none focus:border-crimson/30 focus:ring-2 focus:ring-crimson/8 transition-all resize-y"
+              className="w-full min-h-130 px-5 py-4 rounded-2xl border border-void/8 dark:border-whisper/8 bg-white dark:bg-gray-950 text-void dark:text-whisper text-sm font-mono leading-relaxed placeholder:text-void/25 dark:placeholder:text-whisper/25 focus:outline-none focus:border-crimson/30 focus:ring-2 focus:ring-crimson/8 transition-all resize-y"
             />
           )}
 

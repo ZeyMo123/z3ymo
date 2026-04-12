@@ -163,7 +163,7 @@ function MobileContent() {
         { icon: '◉', label: 'Revenue: $1,240', sub: 'Today', color: '#C9A84C' },
       ].map((item, i) => (
         <div key={i} className="flex items-center gap-2 mx-2 mb-1.5">
-          <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs flex-shrink-0"
+          <div className="w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0"
             style={{ background: `${item.color}20` }}>
             <span style={{ color: item.color, fontSize: '9px' }}>{item.icon}</span>
           </div>

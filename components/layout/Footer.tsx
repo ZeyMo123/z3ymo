@@ -84,7 +84,7 @@ export default function Footer() {
             >
               Z3ymo
             </Link>
-            <p className="text-sm text-white/30 leading-relaxed mb-6 max-w-[180px]">
+            <p className="text-sm text-white/30 leading-relaxed mb-6 max-w-45">
               Africa&apos;s premium AI-native software company — built in Tanzania, serving the world.
             </p>
 

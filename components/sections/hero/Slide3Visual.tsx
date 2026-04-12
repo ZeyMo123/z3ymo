@@ -99,12 +99,12 @@ function MessageBubble({ msg }: { msg: typeof CONVERSATION[0] }) {
       className={`flex ${isUser ? 'justify-end' : 'justify-start'} mx-2`}
     >
       {!isUser && (
-        <div className="w-5 h-5 rounded-full bg-crimson/20 flex items-center justify-center mr-1.5 flex-shrink-0 mt-auto mb-0.5">
+        <div className="w-5 h-5 rounded-full bg-crimson/20 flex items-center justify-center mr-1.5 shrink-0 mt-auto mb-0.5">
           <span style={{ color: '#C0392B', fontSize: '7px', fontWeight: 700 }}>Z</span>
         </div>
       )}
       <div
-        className="text-[10px] leading-[1.5] px-2.5 py-2 rounded-2xl max-w-[170px] whitespace-pre-line"
+        className="text-[10px] leading-normal px-2.5 py-2 rounded-2xl max-w-42.5 whitespace-pre-line"
         style={{
           background: isUser
             ? 'rgba(27,153,139,0.85)'
@@ -129,10 +129,10 @@ function TypingIndicator() {
       exit={{ opacity: 0 }}
       className="flex items-center gap-1.5 mx-2 justify-start"
     >
-      <div className="w-5 h-5 rounded-full bg-crimson/20 flex items-center justify-center flex-shrink-0">
+      <div className="w-5 h-5 rounded-full bg-crimson/20 flex items-center justify-center shrink-0">
         <span style={{ color: '#C0392B', fontSize: '7px', fontWeight: 700 }}>Z</span>
       </div>
-      <div className="bg-[#2A2A3D] px-3 py-2 rounded-2xl rounded-bl-sm flex gap-1 items-center">
+      <div className="bg-surface px-3 py-2 rounded-2xl rounded-bl-sm flex gap-1 items-center">
         {[0, 1, 2].map((i) => (
           <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/40 typing-dot"
             style={{ animationDelay: `${i * 0.2}s` }} />
@@ -210,7 +210,7 @@ export default function Slide3Visual({ isActive }: { isActive: boolean }) {
   return (
     <div className="relative w-full h-full flex items-center justify-center">
       {/* Phone frame */}
-      <div className="relative w-[220px]">
+      <div className="relative w-55">
         <div className="rounded-[32px] overflow-hidden shadow-2xl"
           style={{
             background: '#0d0d18',
@@ -231,7 +231,7 @@ export default function Slide3Visual({ isActive }: { isActive: boolean }) {
 
           {/* Chat header */}
           <div className="flex items-center gap-2 px-3 py-2 border-b border-white/5">
-            <div className="w-7 h-7 rounded-full bg-crimson/20 border border-crimson/30 flex items-center justify-center flex-shrink-0">
+            <div className="w-7 h-7 rounded-full bg-crimson/20 border border-crimson/30 flex items-center justify-center shrink-0">
               <span style={{ fontSize: '9px', fontWeight: 700, color: '#C0392B' }}>Z</span>
             </div>
             <div>
@@ -264,7 +264,7 @@ export default function Slide3Visual({ isActive }: { isActive: boolean }) {
             <div className="flex-1 bg-white/5 rounded-full px-3 py-1.5">
               <span className="text-[8px] text-white/20">Message Pulse...</span>
             </div>
-            <div className="w-6 h-6 rounded-full bg-crimson flex items-center justify-center flex-shrink-0">
+            <div className="w-6 h-6 rounded-full bg-crimson flex items-center justify-center shrink-0">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
                 <path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" />
               </svg>

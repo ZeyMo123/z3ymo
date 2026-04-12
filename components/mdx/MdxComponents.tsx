@@ -21,7 +21,7 @@ export function BlogImage({
 }) {
   return (
     <figure className="my-10 -mx-4 sm:-mx-8 md:-mx-16">
-      <div className="relative w-full overflow-hidden rounded-2xl bg-void/5 dark:bg-whisper/5 aspect-[16/9]">
+      <div className="relative w-full overflow-hidden rounded-2xl bg-void/5 dark:bg-whisper/5 aspect-video">
         <Image
           src={src}
           alt={alt}
@@ -197,7 +197,7 @@ export function Callout({
       s.bg, s.border,
     )}>
       <div className="flex items-start gap-3">
-        <span className={cn('text-lg leading-none mt-0.5 flex-shrink-0', s.iconColor)}>
+        <span className={cn('text-lg leading-none mt-0.5 shrink-0', s.iconColor)}>
           {s.icon}
         </span>
         <div>

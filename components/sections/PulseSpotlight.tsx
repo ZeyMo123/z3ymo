@@ -108,7 +108,7 @@ function PhoneMockup() {
   }, [])
 
   return (
-    <div className="relative mx-auto w-[220px]">
+    <div className="relative mx-auto w-55">
       {/* Phone frame */}
       <div className="
         relative bg-[#111827] rounded-[32px] p-3
@@ -140,7 +140,7 @@ function PhoneMockup() {
         </div>
 
         {/* Messages */}
-        <div className="min-h-[220px] flex flex-col gap-2 px-1 pb-2 overflow-hidden">
+        <div className="min-h-55 flex flex-col gap-2 px-1 pb-2 overflow-hidden">
           <AnimatePresence>
             {CHAT_MESSAGES.filter(m => visibleMessages.includes(m.id)).map((msg) => (
               <motion.div
@@ -152,11 +152,11 @@ function PhoneMockup() {
               >
                 <div
                   className={`
-                    text-[10px] px-2.5 py-1.5 rounded-2xl max-w-[150px]
+                    text-[10px] px-2.5 py-1.5 rounded-2xl max-w-37.5
                     leading-relaxed whitespace-pre-line
                     ${msg.from === 'user'
                       ? 'bg-emerald text-white rounded-tr-sm'
-                      : 'bg-[#2A2A3D] text-white/80 rounded-tl-sm'}
+                      : 'bg-surface text-white/80 rounded-tl-sm'}
                   `}
                 >
                   {msg.text}
@@ -173,7 +173,7 @@ function PhoneMockup() {
                 exit={{ opacity: 0 }}
                 className="flex justify-start"
               >
-                <div className="bg-[#2A2A3D] px-3 py-2 rounded-2xl rounded-tl-sm flex gap-1 items-center">
+                <div className="bg-surface px-3 py-2 rounded-2xl rounded-tl-sm flex gap-1 items-center">
                   {[0, 1, 2].map((i) => (
                     <div
                       key={i}
@@ -189,10 +189,10 @@ function PhoneMockup() {
 
         {/* Input bar */}
         <div className="flex items-center gap-1.5 px-1 mt-1">
-          <div className="flex-1 bg-[#2A2A3D] rounded-full px-3 py-1.5">
+          <div className="flex-1 bg-surface rounded-full px-3 py-1.5">
             <div className="text-[9px] text-white/20">Message</div>
           </div>
-          <div className="w-6 h-6 rounded-full bg-emerald flex items-center justify-center flex-shrink-0">
+          <div className="w-6 h-6 rounded-full bg-emerald flex items-center justify-center shrink-0">
             <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
               <path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z" />
             </svg>

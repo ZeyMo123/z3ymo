@@ -113,7 +113,7 @@ export const SOLUTIONS: Solution[] = [
     platformName:     'CreatorOS',
     platformSlug:     'creator-os',
 
-    painHeadline:     'Growing as a creator shouldn't feel chaotic',
+    painHeadline:     'Growing as a creator shouldn\'t feel chaotic',
     painPoints: [
       'You\'re juggling content, clients, messages, and payments across too many platforms',
       'Your audience is growing — but your systems are not keeping up',

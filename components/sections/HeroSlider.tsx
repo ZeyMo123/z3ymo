@@ -86,7 +86,7 @@ function AnimatedHeadline({
   isEntering: boolean
 }) {
   return (
-    <h1 className="font-display font-bold text-[clamp(2.8rem,7vw,5.5rem)] leading-[1.0] tracking-[-0.04em] mb-6">
+    <h1 className="font-display font-bold text-[clamp(2.8rem,7vw,5.5rem)] leading-none tracking-[-0.04em] mb-6">
       {words.map((word, i) => {
         const isAccent = accentIndices.includes(i)
         return (
@@ -393,7 +393,7 @@ export default function HeroSlider() {
               </div>
 
               {/* Right — visual */}
-              <div className="relative h-[420px] lg:h-[520px] flex items-center justify-center">
+              <div className="relative h-105 lg:h-130 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={`visual-${current}`}

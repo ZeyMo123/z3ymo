@@ -120,7 +120,7 @@ function OptionCard({
       ].join(' ')}
     >
       {icon && (
-        <span className="text-lg w-7 flex-shrink-0 text-center leading-none select-none">
+        <span className="text-lg w-7 shrink-0 text-center leading-none select-none">
           {icon}
         </span>
       )}
@@ -131,7 +131,7 @@ function OptionCard({
         {label}
       </span>
       {selected && (
-        <svg className="ml-auto flex-shrink-0" width="16" height="16" viewBox="0 0 24 24"
+        <svg className="ml-auto shrink-0" width="16" height="16" viewBox="0 0 24 24"
           fill="none" stroke="#C0392B" strokeWidth="2.5" strokeLinecap="round">
           <polyline points="20 6 9 17 4 12" />
         </svg>

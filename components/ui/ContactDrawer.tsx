@@ -136,7 +136,7 @@ export default function ContactDrawer({ open, onClose, context }: ContactDrawerP
                     ${ch.color}
                   `}
                 >
-                  <div className="flex-shrink-0">{ch.icon}</div>
+                  <div className="shrink-0">{ch.icon}</div>
                   <div>
                     <div className="font-medium text-sm">{ch.label}</div>
                     <div className="text-xs opacity-70 mt-0.5">{ch.description}</div>

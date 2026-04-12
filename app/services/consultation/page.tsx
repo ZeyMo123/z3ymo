@@ -61,7 +61,7 @@ export default function ConsultationLandingPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-crimson animate-pulse" />
               <span className="text-xs font-semibold text-crimson tracking-wide">Free · No commitment</span>
             </div>
-            <h1 className="font-display font-bold text-[clamp(2.6rem,6vw,4.5rem)] text-void dark:text-whisper leading-[1.0] tracking-tight mb-5">
+            <h1 className="font-display font-bold text-[clamp(2.6rem,6vw,4.5rem)] text-void dark:text-whisper leading-none tracking-tight mb-5">
               Build a powerful<br /><span className="text-crimson">digital platform</span><br />for your business
             </h1>
             <p className="text-base text-void/55 dark:text-whisper/55 leading-relaxed max-w-lg mx-auto mb-8">
@@ -90,7 +90,7 @@ export default function ConsultationLandingPage() {
               <div className="space-y-4 mb-8">
                 {WHAT_HAPPENS.map((item, i) => (
                   <div key={i} className="flex items-start gap-4">
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: `${ACCENT}10` }}>
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: `${ACCENT}10` }}>
                       <SvcIcon name={item.icon} color={ACCENT} size={16} />
                     </div>
                     <p className="text-sm text-void/65 dark:text-whisper/65 leading-relaxed pt-1.5">{item.text}</p>
@@ -133,7 +133,7 @@ export default function ConsultationLandingPage() {
                 <div className="space-y-2">
                   {FOR_WHO.map((item) => (
                     <div key={item} className="flex items-start gap-2.5 text-sm text-void/60 dark:text-whisper/60">
-                      <div className="w-1 h-1 rounded-full bg-emerald flex-shrink-0 mt-2" />
+                      <div className="w-1 h-1 rounded-full bg-emerald shrink-0 mt-2" />
                       {item}
                     </div>
                   ))}
@@ -153,7 +153,7 @@ export default function ConsultationLandingPage() {
                 <div className="space-y-2">
                   {NOT_FOR_WHO.map((item) => (
                     <div key={item} className="flex items-start gap-2.5 text-xs text-void/40 dark:text-whisper/40">
-                      <div className="w-1 h-1 rounded-full bg-void/20 dark:bg-whisper/20 flex-shrink-0 mt-1.5" />
+                      <div className="w-1 h-1 rounded-full bg-void/20 dark:bg-whisper/20 shrink-0 mt-1.5" />
                       {item}
                     </div>
                   ))}

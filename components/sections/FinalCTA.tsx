@@ -37,7 +37,7 @@ export default function FinalCTA() {
       />
 
       {/* Decorative line */}
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-void/10 dark:via-whisper/10 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-void/10 dark:via-whisper/10 to-transparent" />
 
       <div className="relative max-w-3xl mx-auto text-center">
 

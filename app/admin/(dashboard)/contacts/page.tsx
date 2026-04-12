@@ -43,7 +43,7 @@ export default function ContactsPage() {
             {visible.map((c, i) => (
               <motion.div key={c.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.03 }}>
                 <div className="flex items-center gap-3 px-5 py-4 hover:bg-void/2 dark:hover:bg-whisper/2 transition-colors cursor-pointer" onClick={() => setExpanded(expanded === c.id ? null : c.id)}>
-                  <div className="w-9 h-9 rounded-xl bg-void/5 dark:bg-whisper/5 flex items-center justify-center text-void/35 dark:text-whisper/35 flex-shrink-0">{Icon.user}</div>
+                  <div className="w-9 h-9 rounded-xl bg-void/5 dark:bg-whisper/5 flex items-center justify-center text-void/35 dark:text-whisper/35 shrink-0">{Icon.user}</div>
                   <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-void dark:text-whisper">{c.name ?? 'Anonymous'}</div>
                     <div className="text-xs text-void/40 dark:text-whisper/40">{c.email} · {formatDate(c.created_at)}</div>

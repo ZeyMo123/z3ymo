@@ -155,7 +155,7 @@ function CaseStudyModal({ project, onClose }: { project: typeof PROJECTS[0]; onC
               <h2 className="font-display font-bold text-2xl text-void dark:text-whisper">{project.title}</h2>
               <p className="text-sm font-medium mt-1" style={{ color: project.accent }}>{project.tagline}</p>
             </div>
-            <button onClick={onClose} className="w-9 h-9 rounded-full border border-void/12 dark:border-whisper/12 flex items-center justify-center text-void/40 dark:text-whisper/40 hover:text-void dark:hover:text-whisper hover:border-void/25 dark:hover:border-whisper/25 transition-all flex-shrink-0 cursor-pointer">
+            <button onClick={onClose} className="w-9 h-9 rounded-full border border-void/12 dark:border-whisper/12 flex items-center justify-center text-void/40 dark:text-whisper/40 hover:text-void dark:hover:text-whisper hover:border-void/25 dark:hover:border-whisper/25 transition-all shrink-0 cursor-pointer">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
             </button>
           </div>

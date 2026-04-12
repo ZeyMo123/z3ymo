@@ -172,7 +172,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
       {/* Cover image */}
       {post.cover_image && (
         <div className="max-w-5xl mx-auto px-6 mt-10">
-          <div className="relative aspect-[21/9] rounded-2xl overflow-hidden bg-void/5 dark:bg-whisper/5">
+          <div className="relative aspect-21/9 rounded-2xl overflow-hidden bg-void/5 dark:bg-whisper/5">
             <Image
               src={post.cover_image}
               alt={post.cover_alt ?? post.title}

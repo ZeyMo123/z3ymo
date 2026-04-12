@@ -102,7 +102,7 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
   return (
     <div
       className="
-        flex-shrink-0 w-[320px] mx-3
+        shrink-0 w-[320px] mx-3
         p-6 rounded-2xl
         bg-whisper dark:bg-void-800
         border border-void/8 dark:border-whisper/8
@@ -122,7 +122,7 @@ function TestimonialCard({ t }: { t: typeof TESTIMONIALS[0] }) {
       </p>
       <div className="flex items-center gap-3">
         <div
-          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0"
+          className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
           style={{ background: t.accent }}
         >
           {t.initials}

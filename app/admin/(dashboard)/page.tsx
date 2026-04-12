@@ -46,7 +46,7 @@ function RecentBookings({ bookings, loading, error, onRetry }: {
       {bookings.slice(0, 5).map((b, i) => (
         <motion.div key={b.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
           className="flex items-center gap-3 px-5 py-3.5">
-          <div className="w-8 h-8 rounded-xl bg-crimson/8 flex items-center justify-center flex-shrink-0 text-crimson">
+          <div className="w-8 h-8 rounded-xl bg-crimson/8 flex items-center justify-center shrink-0 text-crimson">
             {Icon.calendar}
           </div>
           <div className="flex-1 min-w-0">
@@ -100,7 +100,7 @@ function RecentPosts({ posts, loading, error, onRetry }: {
       {posts.slice(0, 5).map((p, i) => (
         <motion.div key={p.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.04 }}
           className="flex items-center gap-3 px-5 py-3.5">
-          <div className="w-8 h-8 rounded-xl bg-void/6 dark:bg-whisper/6 flex items-center justify-center flex-shrink-0 text-void/40 dark:text-whisper/40">
+          <div className="w-8 h-8 rounded-xl bg-void/6 dark:bg-whisper/6 flex items-center justify-center shrink-0 text-void/40 dark:text-whisper/40">
             {Icon.article}
           </div>
           <div className="flex-1 min-w-0">

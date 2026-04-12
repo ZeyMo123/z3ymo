@@ -96,7 +96,7 @@ function NavItem({
           : 'text-void/55 dark:text-whisper/55 hover:bg-void/5 dark:hover:bg-whisper/5 hover:text-void dark:hover:text-whisper',
       ].join(' ')}
     >
-      <span className="flex-shrink-0">{item.icon}</span>
+      <span className="shrink-0">{item.icon}</span>
       <span className="flex-1">{item.label}</span>
       {active && (
         <motion.div layoutId="admin-nav-indicator"
@@ -120,8 +120,8 @@ function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
   return (
     <div className="flex flex-col h-full bg-white dark:bg-gray-950">
       {/* Logo */}
-      <div className="h-14 flex items-center gap-3 px-5 border-b border-void/6 dark:border-whisper/6 flex-shrink-0">
-        <div className="w-7 h-7 rounded-lg bg-crimson flex items-center justify-center flex-shrink-0">
+      <div className="h-14 flex items-center gap-3 px-5 border-b border-void/6 dark:border-whisper/6 shrink-0">
+        <div className="w-7 h-7 rounded-lg bg-crimson flex items-center justify-center shrink-0">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none">
             <rect x="2" y="3" width="8" height="8" rx="1"/><rect x="14" y="3" width="8" height="8" rx="1"/>
             <rect x="14" y="14" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/>
@@ -150,7 +150,7 @@ function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
       </nav>
 
       {/* Bottom */}
-      <div className="p-3 border-t border-void/6 dark:border-whisper/6 flex-shrink-0">
+      <div className="p-3 border-t border-void/6 dark:border-whisper/6 shrink-0">
         <a href="/" target="_blank" rel="noopener noreferrer"
           className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-void/50 dark:text-whisper/50 hover:bg-void/5 dark:hover:bg-whisper/5 hover:text-void dark:hover:text-whisper transition-colors mb-0.5">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
@@ -206,7 +206,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="flex-1 flex flex-col lg:ml-56 min-h-0">
 
         {/* Top bar */}
-        <header className="h-14 flex items-center gap-4 px-5 bg-white dark:bg-gray-950 border-b border-void/6 dark:border-whisper/6 flex-shrink-0">
+        <header className="h-14 flex items-center gap-4 px-5 bg-white dark:bg-gray-950 border-b border-void/6 dark:border-whisper/6 shrink-0">
           <button onClick={() => setMobileOpen(!mobileOpen)}
             className="lg:hidden p-2 rounded-xl hover:bg-void/5 dark:hover:bg-whisper/5 text-void/50 dark:text-whisper/50 transition-colors cursor-pointer">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">

@@ -138,7 +138,7 @@ function ContentTable({
       <div className="space-y-3 p-4 animate-pulse">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-xl bg-void/6 dark:bg-whisper/6 flex-shrink-0" />
+            <div className="h-8 w-8 rounded-xl bg-void/6 dark:bg-whisper/6 shrink-0" />
             <div className="flex-1 space-y-1.5">
               <div className="h-3 rounded-full bg-void/6 dark:bg-whisper/6" style={{ width: `${70 - i * 8}%` }} />
               <div className="h-2 rounded-full bg-void/4 dark:bg-whisper/4 w-20" />
@@ -173,7 +173,7 @@ function ContentTable({
           className="flex items-center gap-4 px-5 py-4 hover:bg-void/2 dark:hover:bg-whisper/2 transition-colors"
         >
           {/* Rank */}
-          <div className="w-6 text-center text-xs font-bold text-void/25 dark:text-whisper/25 flex-shrink-0">
+          <div className="w-6 text-center text-xs font-bold text-void/25 dark:text-whisper/25 shrink-0">
             {i + 1}
           </div>
 
@@ -199,7 +199,7 @@ function ContentTable({
           </div>
 
           {/* Views */}
-          <div className="text-sm font-mono font-medium text-void/60 dark:text-whisper/60 text-right flex-shrink-0">
+          <div className="text-sm font-mono font-medium text-void/60 dark:text-whisper/60 text-right shrink-0">
             {post.views.toLocaleString()}
             <div className="text-[10px] text-void/30 dark:text-whisper/30 font-sans">views</div>
           </div>

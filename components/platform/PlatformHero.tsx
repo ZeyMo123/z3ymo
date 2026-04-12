@@ -64,7 +64,7 @@ export default function PlatformHero({ name, headline, subheadline, accent, modu
 
                 <div className="flex flex-wrap gap-3">
                   <MagneticButton onClick={() => setDrawerOpen(true)} variant="primary" size="lg">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="flex-shrink-0">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="shrink-0">
                       <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V6a2 2 0 012-2z" />
                     </svg>
                     Book Free Consultation
@@ -126,7 +126,7 @@ function DashboardPreview({ modules, accent, name }: { modules: string[]; accent
           {/* Sidebar + content */}
           <div className="flex gap-4 h-full">
             {/* Sidebar */}
-            <div className="w-32 flex-shrink-0">
+            <div className="w-32 shrink-0">
               <div className="text-[9px] font-bold tracking-wider uppercase mb-2" style={{ color: accent, opacity: 0.7 }}>
                 {name}
               </div>
@@ -137,7 +137,7 @@ function DashboardPreview({ modules, accent, name }: { modules: string[]; accent
                     className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] font-medium transition-colors"
                     style={i === 0 ? { background: `${accent}15`, color: accent } : { color: 'rgba(10,10,15,0.4)' }}
                   >
-                    <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: i === 0 ? accent : 'currentColor', opacity: i === 0 ? 1 : 0.5 }} />
+                    <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ background: i === 0 ? accent : 'currentColor', opacity: i === 0 ? 1 : 0.5 }} />
                     {mod}
                   </div>
                 ))}
@@ -176,7 +176,7 @@ function DashboardPreview({ modules, accent, name }: { modules: string[]; accent
               <div className="space-y-1.5">
                 {[0, 1, 2].map((i) => (
                   <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded-lg bg-white/50 dark:bg-void/50 border border-void/6 dark:border-whisper/6">
-                    <div className="w-4 h-4 rounded-md flex-shrink-0" style={{ background: `${accent}20` }} />
+                    <div className="w-4 h-4 rounded-md shrink-0" style={{ background: `${accent}20` }} />
                     <div className="flex-1 h-1.5 rounded-full bg-void/8 dark:bg-whisper/8" style={{ width: `${70 - i * 15}%` }} />
                     <div className="w-6 h-1.5 rounded-full" style={{ background: `${accent}40` }} />
                   </div>

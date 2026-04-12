@@ -88,7 +88,7 @@ export default function BookingsPage() {
                 {/* Row */}
                 <div className="flex items-center gap-4 px-5 py-4 hover:bg-void/2 dark:hover:bg-whisper/2 transition-colors cursor-pointer"
                   onClick={() => setExpanded(expanded === b.id ? null : b.id)}>
-                  <div className="w-9 h-9 rounded-xl bg-crimson/8 flex items-center justify-center text-crimson flex-shrink-0">
+                  <div className="w-9 h-9 rounded-xl bg-crimson/8 flex items-center justify-center text-crimson shrink-0">
                     {Icon.user}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -106,7 +106,7 @@ export default function BookingsPage() {
                       {b.consultation_slots && ` · ${b.consultation_slots.date} ${formatTime(b.consultation_slots.start_time)}`}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     <StatusBadge status={b.status} />
                     <span className="text-void/20 dark:text-whisper/20">
                       {expanded === b.id ? Icon.chevronUp : Icon.chevronDown}
