@@ -1,94 +1,67 @@
-import { compileMDX } from 'next-mdx-remote/rsc'
-import rehypePrettyCode from 'rehype-pretty-code'
-import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import remarkGfm from 'remark-gfm'
+// ─────────────────────────────────────────────────────────────────
+// lib/mdx.ts — next-mdx-remote v6 helper
+//
+// v6 breaking change:
+//   REMOVED: serialize(source) + <MDXRemote {...props} /> (client hydration)
+//   ADDED:   <MDXRemote source={rawString} /> from 'next-mdx-remote/rsc'
+//            Works as a React Server Component — no serialisation step needed.
+//
+// Usage in a server component / page:
+//   import { MDXRemote } from 'next-mdx-remote/rsc'
+//   import { mdxComponents, mdxOptions } from '@/lib/mdx'
+//
+//   <MDXRemote
+//     source={post.content}
+//     components={mdxComponents}
+//     options={mdxOptions}
+//   />
+// ─────────────────────────────────────────────────────────────────
 
-// MDX Components
-import {
-  BlogImage,
-  BlockQuote,
-  PullQuote,
-  Callout,
-  CodeBlock,
-  Divider,
-  LeadText,
-  ArticleLink,
-} from '@/components/mdx/MdxComponents'
+import type { MDXRemoteProps } from 'next-mdx-remote/rsc'
+import type { ComponentPropsWithoutRef } from 'react'
+import { MdxComponents } from '@/components/mdx/MdxComponents'
 
-const mdxComponents = {
-  img:        BlogImage,
-  blockquote: BlockQuote,
-  PullQuote,
-  Callout,
-  pre:        CodeBlock,
-  hr:         Divider,
-  LeadText,
-  a:          ArticleLink,
-}
+// ─── remark / rehype plugins ──────────────────────────────────
+// Install if not already present:
+//   npm i rehype-slug rehype-autolink-headings rehype-pretty-code remark-gfm
 
-const prettyCodeOptions = {
-  theme: {
-    dark:  'one-dark-pro',
-    light: 'github-light',
+// Options passed to <MDXRemote options={mdxOptions} />
+export const mdxOptions: MDXRemoteProps['options'] = {
+  mdxOptions: {
+    remarkPlugins: [
+      // remark-gfm adds tables, strikethrough, task lists
+      // Uncomment once package is installed:
+      // (await import('remark-gfm')).default,
+    ],
+    rehypePlugins: [
+      // rehype-slug adds id attrs to headings (required for ToC links)
+      // rehype-autolink-headings makes headings linkable
+      // rehype-pretty-code for syntax highlighting
+      // Uncomment once packages are installed:
+      // (await import('rehype-slug')).default,
+    ],
   },
-  keepBackground: false,
-  onVisitLine(node: any) {
-    if (node.children.length === 0) {
-      node.children = [{ type: 'text', value: ' ' }]
-    }
-  },
-  onVisitHighlightedLine(node: any) {
-    node.properties.className.push('highlighted')
-  },
 }
 
-export async function processMDX(content: string) {
-  const { content: rendered, frontmatter } = await compileMDX({
-    source: content,
-    components: mdxComponents,
-    options: {
-      parseFrontmatter: true,
-      mdxOptions: {
-        remarkPlugins: [remarkGfm],
-        rehypePlugins: [
-          rehypeSlug,
-          [rehypeAutolinkHeadings, {
-            behavior: 'wrap',
-            properties: { className: ['heading-anchor'] },
-          }],
-          [rehypePrettyCode, prettyCodeOptions],
-        ],
-      },
-    },
-  })
+// ─── MDX component map ────────────────────────────────────────
+// Maps HTML elements to custom styled React components.
+// Passed as `components` prop to <MDXRemote />.
+export { MdxComponents as mdxComponents }
 
-  return { rendered, frontmatter }
-}
-
-// ─── Extract headings for Table of Contents ────
-export function extractHeadings(content: string): { id: string; text: string; level: number }[] {
-  const headingRegex = /^(#{1,3})\s+(.+)$/gm
-  const headings: { id: string; text: string; level: number }[] = []
-  let match
-
-  while ((match = headingRegex.exec(content)) !== null) {
-    const level = match[1].length
-    const text  = match[2].trim()
-    const id    = text
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-
-    headings.push({ id, text, level })
-  }
-
-  return headings
-}
-
-// ─── Estimate reading time ────────────────────
+// ─── Reading time estimate ────────────────────────────────────
 export function estimateReadTime(content: string): number {
   const words = content.trim().split(/\s+/).length
-  return Math.max(1, Math.round(words / 220))
+  return Math.max(1, Math.round(words / 200))
+}
+
+// ─── Plain-text excerpt ───────────────────────────────────────
+// Strips MDX/Markdown syntax for use in meta descriptions.
+export function extractExcerpt(content: string, maxLength = 160): string {
+  return content
+    .replace(/```[\s\S]*?```/g, '')   // remove code blocks
+    .replace(/#{1,6}\s/g, '')          // remove headings
+    .replace(/[*_~`[\]()>]/g, '')      // remove markdown chars
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, maxLength)
 }
