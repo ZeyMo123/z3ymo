@@ -372,7 +372,15 @@ export default function RichEditor({
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
+      // Disable link + underline inside StarterKit so our custom-configured
+      // versions below are the only registered instances — eliminates the
+      // "Duplicate extension names" warning in newer Tiptap releases.
+      StarterKit.configure({
+        heading:   { levels: [1, 2, 3] },
+        link:      false,  // we add Link separately with custom config
+        // StarterKit doesn't include underline yet, but guard defensively:
+        // underline: false,
+      }),
       Underline,
       Highlight.configure({ multicolor: false }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
