@@ -1,226 +1,177 @@
-import Image from 'next/image'
+'use client'
+
+// ─────────────────────────────────────────────────────────────────
+// components/blog/BlogCard.tsx
+//
+// Reusable blog post card. Used in the homepage slider and the
+// full blog listing page. Handles missing images gracefully.
+// ─────────────────────────────────────────────────────────────────
+
 import Link from 'next/link'
-import { type Post } from '@/lib/supabase/client'
+import { motion } from 'framer-motion'
+import type { Post } from '@/lib/supabase/client'
+
+// ─── Helpers ──────────────────────────────────────────────────
+
+function formatDate(iso: string | null): string {
+  if (!iso) return ''
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
+  })
+}
+
+// ─── Icons ────────────────────────────────────────────────────
+
+const ClockIcon = () => (
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <circle cx="12" cy="12" r="10"/>
+    <polyline points="12 6 12 12 16 14"/>
+  </svg>
+)
+
+const ArrowIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+    stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <path d="M5 12h14M12 5l7 7-7 7"/>
+  </svg>
+)
+
+// ─── Image placeholder ────────────────────────────────────────
+
+function CoverPlaceholder({ color }: { color?: string | null }) {
+  const accent = color ?? '#C0392B'
+  return (
+    <div className="w-full h-full flex items-center justify-center"
+      style={{ background: `linear-gradient(135deg, ${accent}12, ${accent}06)` }}>
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+        stroke={accent} strokeWidth="1" strokeLinecap="round" opacity="0.3">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+    </div>
+  )
+}
+
+// ─── Component ────────────────────────────────────────────────
 
 interface BlogCardProps {
-  post: Post
-  variant?: 'default' | 'featured' | 'compact'
+  post:      Post
+  /** Compact = slightly smaller, used in grid. Default = full for slider */
+  compact?:  boolean
+  /** Extra classes for the wrapper */
+  className?: string
 }
 
-function formatDate(dateStr: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short', day: 'numeric', year: 'numeric',
-  }).format(new Date(dateStr))
-}
+export default function BlogCard({ post, compact = false, className = '' }: BlogCardProps) {
+  const catColor = post.categories?.color ?? '#C0392B'
 
-export default function BlogCard({ post, variant = 'default' }: BlogCardProps) {
-  const category = (post as any).categories
-  const date = post.published_at ?? post.created_at
-
-  if (variant === 'featured') {
-    return (
-      <Link href={`/blog/${post.slug}`} className="group block">
-        <article className="
-          grid grid-cols-1 md:grid-cols-2 gap-0
-          rounded-2xl overflow-hidden
-          border border-void/8 dark:border-whisper/8
-          hover:border-void/16 dark:hover:border-whisper/16
-          transition-all duration-300
-          bg-void/2 dark:bg-whisper/2
-        ">
-          {/* Image */}
-          <div className="relative aspect-4/3 md:aspect-auto overflow-hidden bg-void/5 dark:bg-whisper/5">
-            {post.cover_image ? (
-              <Image
-                src={post.cover_image}
-                alt={post.cover_alt ?? post.title}
-                fill
-                className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            ) : (
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ background: `${category?.color ?? '#C0392B'}08` }}
-              >
-                <span
-                  className="font-display font-bold text-7xl opacity-20"
-                  style={{ color: category?.color ?? '#C0392B' }}
-                >
-                  {post.title.charAt(0)}
-                </span>
-              </div>
-            )}
-
-            {/* Category overlay */}
-            {category && (
-              <div className="absolute top-4 left-4">
-                <span
-                  className="text-xs font-semibold px-3 py-1 rounded-full backdrop-blur-sm"
-                  style={{
-                    background: `${category.color}22`,
-                    color: category.color,
-                    border: `1px solid ${category.color}40`,
-                  }}
-                >
-                  {category.name}
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* Content */}
-          <div className="p-8 flex flex-col justify-center">
-            <div className="flex items-center gap-2 text-xs text-void/40 dark:text-whisper/40 mb-4">
-              <span>{formatDate(date!)}</span>
-              <span>·</span>
-              <span>{post.read_time} min read</span>
-            </div>
-
-            <h2 className="
-              font-display font-semibold text-2xl
-              text-void dark:text-whisper
-              leading-snug mb-3
-              group-hover:text-crimson dark:group-hover:text-crimson
-              transition-colors duration-200
-              text-balance
-            ">
-              {post.title}
-            </h2>
-
-            <p className="text-sm text-void/55 dark:text-whisper/55 leading-relaxed mb-6">
-              {post.excerpt}
-            </p>
-
-            <div className="flex items-center gap-3 mt-auto">
-              <div className="w-8 h-8 rounded-full bg-crimson/20 flex items-center justify-center text-xs font-bold text-crimson">
-                {post.author_name.charAt(0)}
-              </div>
-              <div>
-                <div className="text-sm font-medium text-void dark:text-whisper">{post.author_name}</div>
-                {post.author_role && (
-                  <div className="text-xs text-void/40 dark:text-whisper/40">{post.author_role}</div>
-                )}
-              </div>
-            </div>
-          </div>
-        </article>
-      </Link>
-    )
-  }
-
-  if (variant === 'compact') {
-    return (
-      <Link href={`/blog/${post.slug}`} className="group flex gap-4 items-start">
-        <div className="
-          shrink-0 w-16 h-16 rounded-xl overflow-hidden
-          bg-void/5 dark:bg-whisper/5
-          relative
-        ">
-          {post.cover_image ? (
-            <Image src={post.cover_image} alt={post.title} fill className="object-cover" sizes="64px" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center"
-              style={{ background: `${category?.color ?? '#C0392B'}12` }}>
-              <span className="font-display font-bold text-xl opacity-40"
-                style={{ color: category?.color ?? '#C0392B' }}>
-                {post.title.charAt(0)}
-              </span>
-            </div>
-          )}
-        </div>
-        <div className="flex-1 min-w-0">
-          <h4 className="
-            text-sm font-medium text-void dark:text-whisper
-            group-hover:text-crimson dark:group-hover:text-crimson
-            transition-colors duration-150 line-clamp-2 leading-snug mb-1
-          ">
-            {post.title}
-          </h4>
-          <span className="text-xs text-void/35 dark:text-whisper/35">
-            {post.read_time} min · {formatDate(date!)}
-          </span>
-        </div>
-      </Link>
-    )
-  }
-
-  // Default card
   return (
-    <Link href={`/blog/${post.slug}`} className="group block h-full">
-      <article className="
-        h-full rounded-2xl overflow-hidden
-        border border-void/8 dark:border-whisper/8
-        hover:border-void/16 dark:hover:border-whisper/16
-        transition-all duration-200
-        bg-void/2 dark:bg-whisper/2
-        hover:bg-void/4 dark:hover:bg-whisper/4
-      ">
-        {/* Cover image */}
-        <div className="relative aspect-video overflow-hidden bg-void/5 dark:bg-whisper/5">
+    <motion.article
+      whileHover={{ y: -4 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 28 }}
+      className={[
+        'group flex flex-col h-full rounded-3xl border overflow-hidden bg-white dark:bg-white/[0.03]',
+        'border-void/8 dark:border-white/8',
+        'shadow-sm dark:shadow-none',
+        'hover:shadow-md dark:hover:shadow-[0_4px_24px_rgba(0,0,0,0.35)]',
+        'transition-shadow duration-300',
+        className,
+      ].join(' ')}
+    >
+      {/* Cover */}
+      <Link href={`/blog/${post.slug}`} className="block flex-shrink-0" tabIndex={-1} aria-hidden="true">
+        <div className={`w-full overflow-hidden bg-void/4 dark:bg-white/4 ${compact ? 'h-44' : 'h-52 sm:h-56'}`}>
           {post.cover_image ? (
-            <Image
+            <img
               src={post.cover_image}
               alt={post.cover_alt ?? post.title}
-              fill
-              className="object-cover group-hover:scale-[1.04] transition-transform duration-500"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+              loading="lazy"
             />
           ) : (
-            <div
-              className="absolute inset-0 flex items-center justify-center"
-              style={{ background: `${category?.color ?? '#C0392B'}08` }}
-            >
-              <span
-                className="font-display font-bold text-6xl opacity-15"
-                style={{ color: category?.color ?? '#C0392B' }}
-              >
-                {post.title.charAt(0)}
-              </span>
-            </div>
-          )}
-
-          {category && (
-            <div className="absolute top-3 left-3">
-              <span
-                className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-                style={{
-                  background: `${category.color}20`,
-                  color: category.color,
-                  border: `1px solid ${category.color}35`,
-                  backdropFilter: 'blur(8px)',
-                }}
-              >
-                {category.name}
-              </span>
-            </div>
+            <CoverPlaceholder color={catColor} />
           )}
         </div>
+      </Link>
 
-        {/* Body */}
-        <div className="p-6">
-          <div className="flex items-center gap-2 text-xs text-void/35 dark:text-whisper/35 mb-3">
-            <span>{formatDate(date!)}</span>
-            <span>·</span>
-            <span>{post.read_time} min read</span>
+      {/* Body */}
+      <div className="flex flex-col flex-1 p-6">
+
+        {/* Category */}
+        {post.categories && (
+          <div className="mb-3">
+            <span className="text-[10px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-full"
+              style={{ background: `${catColor}12`, color: catColor }}>
+              {post.categories.name}
+            </span>
           </div>
+        )}
 
-          <h3 className="
-            font-display font-semibold text-lg
-            text-void dark:text-whisper
-            leading-snug mb-2
-            group-hover:text-crimson dark:group-hover:text-crimson
-            transition-colors duration-200
-            line-clamp-2 text-balance
-          ">
+        {/* Title */}
+        <Link href={`/blog/${post.slug}`} className="group/title block mb-2 flex-1">
+          <h3 className={[
+            'font-display font-bold leading-tight',
+            'text-void dark:text-white',
+            'group-hover/title:text-crimson transition-colors duration-200',
+            compact ? 'text-base' : 'text-lg',
+          ].join(' ')}>
             {post.title}
           </h3>
+        </Link>
 
-          <p className="text-sm text-void/50 dark:text-whisper/50 leading-relaxed line-clamp-2">
-            {post.excerpt}
-          </p>
+        {/* Excerpt */}
+        <p className={[
+          'text-void/50 dark:text-white/45 leading-relaxed mb-5',
+          'line-clamp-2',
+          compact ? 'text-xs' : 'text-sm',
+        ].join(' ')}>
+          {post.excerpt}
+        </p>
+
+        {/* Footer row */}
+        <div className="flex items-center justify-between mt-auto pt-4
+          border-t border-void/6 dark:border-white/6">
+
+          {/* Author + date */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            {post.author_avatar ? (
+              <img src={post.author_avatar} alt={post.author_name}
+                className="w-6 h-6 rounded-full object-cover flex-shrink-0"/>
+            ) : (
+              <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center text-[10px] font-bold text-white"
+                style={{ background: catColor }}>
+                {post.author_name.charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="text-[11px] font-medium text-void/60 dark:text-white/50 truncate">
+                {post.author_name}
+              </p>
+              {post.published_at && (
+                <p className="text-[10px] text-void/35 dark:text-white/30">
+                  {formatDate(post.published_at)}
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Read time + CTA */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <span className="flex items-center gap-1 text-[11px] text-void/35 dark:text-white/30">
+              <ClockIcon />
+              {post.read_time}m
+            </span>
+            <Link href={`/blog/${post.slug}`}
+              className="flex items-center gap-1 text-[11px] font-semibold text-crimson
+                hover:gap-2 transition-all duration-200 opacity-0 group-hover:opacity-100">
+              Read
+              <ArrowIcon />
+            </Link>
+          </div>
         </div>
-      </article>
-    </Link>
+      </div>
+    </motion.article>
   )
 }
