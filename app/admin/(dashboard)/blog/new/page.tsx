@@ -39,13 +39,13 @@ const INPUT_CLS = 'w-full px-4 py-3 rounded-xl border border-void/10 dark:border
 
 // All 6 Z3ymo categories (must match your Supabase categories table)
 const CATEGORIES = [
-  { id: '',            name: '— No category —',       color: '' },
-  { id: 'ai',          name: 'AI & Machine Learning',  color: '#C0392B' },
-  { id: 'software-dev',name: 'Software Development',   color: '#1B998B' },
-  { id: 'cybersecurity',name:'Cybersecurity',           color: '#C9A84C' },
-  { id: 'business-tech',name:'Business Tech',           color: '#C0392B' },
-  { id: 'social-media', name:'Social Media',            color: '#1B998B' },
-  { id: 'modern-tech',  name:'Modern Technologies',     color: '#C9A84C' },
+  { id: '',            name: '— No category —', color: '' },
+  { id: 'ee0c5361-2ec9-4c30-ad52-860de4e4a954', name: 'AI & Machine Learning',  color: '#C0392B' },
+  { id: '04c320c0-434c-4aac-9c4e-ac337d2f84af', name: 'Software Development',   color: '#1B998B' },
+  { id: 'dbb32c7a-37b9-41e4-ab6f-f1d80830f8a2', name:'Cybersecurity', color: '#C9A84C' },
+  { id: '96d5b1b2-f8d3-4047-8064-13cc4391397c', name:'Business Tech', color: '#C0392B' },
+  { id: '570ca3cf-523c-4649-902a-3d7b67e75279', name:'Social Media', color: '#1B998B' },
+  { id: '3976a47c-6ef6-4389-b37b-a5ffa2c44995', name:'Modern Technologies', color: '#C9A84C' },
 ]
 
 // CTA options with their badge labels
