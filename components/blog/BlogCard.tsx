@@ -60,6 +60,7 @@ interface BlogCardProps {
   post:      Post
   /** Compact = slightly smaller, used in grid. Default = full for slider */
   compact?:  boolean
+  variant?: 'default' | 'featured'
   /** Extra classes for the wrapper */
   className?: string
 }
