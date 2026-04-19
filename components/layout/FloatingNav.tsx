@@ -7,7 +7,6 @@ import Link from 'next/link'
 import { motion, AnimatePresence, useReducedMotion, type Variants } from 'framer-motion'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 import MagneticButton from '@/components/ui/MagneticButton'
-import ContactDrawer from '@/components/ui/ContactDrawer'
 
 // ─── Nav data ─────────────────────────────────────────────────
 
@@ -493,7 +492,6 @@ function MobileItem({
 export default function FloatingNav() {
   const [activeMenu,    setActiveMenu]    = useState<MenuKey | null>(null)
   const [scrolled,      setScrolled]      = useState(false)
-  const [drawerOpen,    setDrawerOpen]    = useState(false)
   const [mobileOpen,    setMobileOpen]    = useState(false)
   const [mobileSection, setMobileSection] = useState<string | null>(null)
 
@@ -596,12 +594,15 @@ export default function FloatingNav() {
             {/* Right */}
             <div className="flex items-center gap-2 ml-auto shrink-0">
               <ThemeToggle />
-              <MagneticButton
-                onClick={() => setDrawerOpen(true)}
-                variant="primary" size="sm"
-                className="hidden sm:inline-flex">
-                Book Consultation
-              </MagneticButton>
+              <Link href="/services/consultation">
+                <MagneticButton 
+                  variant="primary"
+                  size="sm"
+                  className="hidden sm:inline-flex"
+                >
+                  Book Consultation
+                </MagneticButton>
+              </Link>
 
               {/* Animated hamburger */}
               <motion.button
@@ -744,12 +745,15 @@ export default function FloatingNav() {
 
               {/* Sticky footer CTA */}
               <div className="shrink-0 border-t border-void/8 dark:border-whisper/8 px-4 py-4 space-y-2.5">
-                <MagneticButton
-                  onClick={() => { closeMobile(); setDrawerOpen(true) }}
-                  variant="primary"
-                  className="w-full justify-center">
-                  Book Free Consultation
-                </MagneticButton>
+                <Link href="/services/consultation">
+                  <MagneticButton 
+                    variant="primary"
+                    size="sm"
+                    className="hidden sm:inline-flex"
+                  >
+                    Book Consultation
+                  </MagneticButton>
+                </Link>
                 <Link href="/solutions" onClick={closeMobile}
                   className="block text-center text-sm text-void/45 dark:text-whisper/45 hover:text-void dark:hover:text-whisper transition-colors py-1.5">
                   Explore industry solutions →
@@ -760,7 +764,7 @@ export default function FloatingNav() {
         )}
       </AnimatePresence>
 
-      <ContactDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      
     </>
   )
 }
