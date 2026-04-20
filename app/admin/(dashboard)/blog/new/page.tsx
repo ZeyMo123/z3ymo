@@ -17,6 +17,7 @@ import { useRouter }                                 from 'next/navigation'
 import dynamic                                       from 'next/dynamic'
 import Link                                          from 'next/link'
 import { AnimatePresence, motion }                   from 'framer-motion'
+import { supabase }                                   from '@/lib/supabase/client'
 
 // Dynamic import — prevents SSR crash from Tiptap DOM APIs
 const RichEditor = dynamic(() => import('@/components/editor/RichEditor'), {
@@ -37,16 +38,15 @@ const RichEditor = dynamic(() => import('@/components/editor/RichEditor'), {
 const LABEL_CLS = 'block text-xs font-semibold uppercase tracking-wider text-void/40 dark:text-whisper/40 mb-2'
 const INPUT_CLS = 'w-full px-4 py-3 rounded-xl border border-void/10 dark:border-whisper/10 bg-transparent text-void dark:text-whisper text-sm placeholder:text-void/25 dark:placeholder:text-whisper/25 focus:outline-none focus:border-crimson/40 focus:ring-2 focus:ring-crimson/8 transition-all'
 
-// All 6 Z3ymo categories (must match your Supabase categories table)
-const CATEGORIES = [
-  { id: '',            name: '— No category —', color: '' },
-  { id: 'ee0c5361-2ec9-4c30-ad52-860de4e4a954', name: 'AI & Machine Learning',  color: '#C0392B' },
-  { id: '04c320c0-434c-4aac-9c4e-ac337d2f84af', name: 'Software Development',   color: '#1B998B' },
-  { id: 'dbb32c7a-37b9-41e4-ab6f-f1d80830f8a2', name:'Cybersecurity', color: '#C9A84C' },
-  { id: '96d5b1b2-f8d3-4047-8064-13cc4391397c', name:'Business Tech', color: '#C0392B' },
-  { id: '570ca3cf-523c-4649-902a-3d7b67e75279', name:'Social Media', color: '#1B998B' },
-  { id: '3976a47c-6ef6-4389-b37b-a5ffa2c44995', name:'Modern Technologies', color: '#C9A84C' },
-]
+// ─── Category type (fetched from Supabase at runtime) ─────────
+// IDs are real UUIDs from the database — never hardcoded here.
+
+interface Category {
+  id:    string   // UUID e.g. "dbb32c7a-37b9-41e4-ab6f-f1d80830f8a2"
+  name:  string
+  slug:  string
+  color: string
+}
 
 // CTA options with their badge labels
 type CtaType = 'consultation' | 'services' | 'products' | 'pulse' | 'none'
@@ -259,6 +259,33 @@ export default function NewBlogPostPage() {
   const [preview, setPreview] = useState(false)
   const savedTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
+  // ── Categories — fetched live so we always use real UUIDs ──
+  const [categories,     setCategories]     = useState<Category[]>([])
+  const [catsLoading,    setCatsLoading]    = useState(true)
+  const [catsError,      setCatsError]      = useState('')
+
+  useEffect(() => {
+    async function fetchCategories() {
+      setCatsLoading(true)
+      setCatsError('')
+      const { data, error } = await supabase
+        .from('categories')
+        .select('id, name, slug, color')
+        .order('name')
+
+      if (error) {
+        setCatsError('Could not load categories.')
+      } else {
+        setCategories(data ?? [])
+      }
+      setCatsLoading(false)
+    }
+    fetchCategories()
+  }, [])
+
+  // Derived: find the currently selected category object (for color preview)
+  const selectedCategory = categories.find(c => c.id === draft.category_id) ?? null
+
   // Auto-slug from title (only while slug is still auto)
   const [slugEdited, setSlugEdited] = useState(false)
   useEffect(() => {
@@ -321,8 +348,6 @@ export default function NewBlogPostPage() {
 
   // Cleanup timer on unmount
   useEffect(() => () => { if (savedTimer.current) clearTimeout(savedTimer.current) }, [])
-
-  const selectedCategory = CATEGORIES.find(c => c.id === draft.category_id)
 
   return (
     <div className="min-h-screen bg-whisper dark:bg-void">
@@ -513,7 +538,21 @@ export default function NewBlogPostPage() {
                     onChange={e => update('category_id', e.target.value)}
                     className={`${INPUT_CLS} appearance-none pr-8 cursor-pointer`}
                   >
-                    {CATEGORIES.map(cat => (
+                    {/* Placeholder option */}
+                    <option value="">— No category —</option>
+
+                    {/* Loading state */}
+                    {catsLoading && (
+                      <option disabled>Loading categories…</option>
+                    )}
+
+                    {/* Error state */}
+                    {catsError && (
+                      <option disabled>{catsError}</option>
+                    )}
+
+                    {/* Live categories from Supabase — use real UUID as value */}
+                    {!catsLoading && categories.map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.name}</option>
                     ))}
                   </select>
@@ -524,8 +563,8 @@ export default function NewBlogPostPage() {
                     </svg>
                   </div>
                 </div>
-                {/* Category color preview */}
-                {draft.category_id && selectedCategory?.color && (
+                {/* Color preview — only when a real category is selected */}
+                {draft.category_id && selectedCategory && (
                   <div className="flex items-center gap-2 mt-2">
                     <span className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                       style={{ background: selectedCategory.color }} />
