@@ -120,7 +120,7 @@ export async function getLatestPosts(limit = 3): Promise<Post[]> {
 // ─── Increment view count ──────────────────────
 export async function incrementViews(postId: string) {
   const db = createServerClient()
-  await db.rpc('increment_views', { post_id: postId })
+  await db.rpc('increment_post_views', { post_id: postId })
 }
 
 // ─── Subscribe to newsletter ───────────────────
