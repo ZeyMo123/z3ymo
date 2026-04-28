@@ -18,6 +18,7 @@ import dynamic                                       from 'next/dynamic'
 import Link                                          from 'next/link'
 import { AnimatePresence, motion }                   from 'framer-motion'
 import { supabase }                                   from '@/lib/supabase/client'
+import { KeyTakeawaysInput }                          from '@/components/admin/EditorShared'
 
 // Dynamic import — prevents SSR crash from Tiptap DOM APIs
 const RichEditor = dynamic(() => import('@/components/editor/RichEditor'), {
@@ -71,6 +72,7 @@ interface PostDraft {
   author_name:         string
   category_id:         string
   tags:                string[]
+  key_takeaways:       string[]   // shown as highlighted box before content on reading page
   read_time:           number
   featured:            boolean
   published:           boolean
@@ -89,6 +91,7 @@ const EMPTY: PostDraft = {
   author_name:         'Z3ymo Team',
   category_id:         '',
   tags:                [],
+  key_takeaways:       [],
   read_time:           5,
   featured:            false,
   published:           false,
@@ -473,6 +476,14 @@ export default function NewBlogPostPage() {
                   {draft.excerpt.length} / 250
                 </span>
               </div>
+            </Field>
+
+            {/* Key Takeaways */}
+            <Field label="Key Takeaways" hint="3–5 concrete outcomes the reader walks away with. Shown as a highlighted box before the content on the reading page.">
+              <KeyTakeawaysInput
+                items={draft.key_takeaways}
+                onChange={v => update('key_takeaways', v)}
+              />
             </Field>
 
             {/* Content */}

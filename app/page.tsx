@@ -11,6 +11,8 @@ import PulseSpotlight     from '@/components/sections/PulseSpotlight'
 import Portfolio          from '@/components/sections/Portfolio'
 import TestimonialsSlider from '@/components/sections/TestimonialsSlider'
 import BlogPreview        from '@/components/sections/BlogPreview'
+import GuidesPreview      from '@/components/sections/GuidesPreview'
+import CaseStudiesPreview from '@/components/sections/CaseStudiesPreview'
 import FinalCTA           from '@/components/sections/FinalCTA'
 
 export const metadata: Metadata = {
@@ -48,11 +50,14 @@ export default function HomePage() {
       {/* 08 — Case Studies */}
       <Portfolio />
 
+      <CaseStudiesPreview />
+
       {/* 09 — Testimonials infinite slider */}
       <TestimonialsSlider />
 
       {/* 10 — Blog preview */}
       <BlogPreview />
+      <GuidesPreview />
 
       {/* 11 — Final CTA */}
       <FinalCTA />

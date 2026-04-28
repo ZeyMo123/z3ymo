@@ -1,250 +1,375 @@
 'use client'
 
+// ─────────────────────────────────────────────────────────────────
+// app/admin/(dashboard)/layout.tsx
+//
+// Dashboard shell: sticky sidebar + main content area.
+// All content section links use the new dedicated routes:
+//   /admin/content/guides        (NOT /admin/content/new?type=guide)
+//   /admin/content/case-studies  (NOT /admin/content/new?type=case-study)
+//   /admin/content/docs          (NOT /admin/content/new?type=doc)
+// ─────────────────────────────────────────────────────────────────
+
 import { useState, useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import Link                    from 'next/link'
+import { usePathname }         from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// ─── Nav structure ────────────────────────────────────────────
+// ─── Nav structure ────────────────────────────────────────────────
 
-const NAV_SECTIONS = [
+type NavItem = {
+  label:   string
+  href:    string
+  icon:    React.ReactNode
+  badge?:  string
+}
+
+type NavGroup = {
+  title: string
+  items: NavItem[]
+}
+
+function Icon({ d, size = 16 }: { d: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+      <path d={d} />
+    </svg>
+  )
+}
+
+const NAV_GROUPS: NavGroup[] = [
   {
-    label: 'Overview',
+    title: 'Overview',
     items: [
       {
         label: 'Dashboard',
         href:  '/admin',
-        exact: true,
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>,
+        icon:  <Icon d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />,
       },
       {
         label: 'Analytics',
         href:  '/admin/analytics',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+        icon:  <Icon d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />,
       },
     ],
   },
   {
-    label: 'Content',
+    title: 'Content',
     items: [
       {
-        label: 'Blog posts',
+        label: 'Blog Posts',
         href:  '/admin/blog',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>,
+        icon:  <Icon d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />,
       },
       {
         label: 'Guides',
         href:  '/admin/content/guides',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>,
+        icon:  <Icon d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />,
       },
       {
-        label: 'Case studies',
+        label: 'Case Studies',
         href:  '/admin/content/case-studies',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>,
+        icon:  <Icon d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />,
       },
       {
         label: 'Documentation',
         href:  '/admin/content/docs',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>,
+        icon:  <Icon d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />,
       },
     ],
   },
   {
-    label: 'Customers',
+    title: 'Operations',
     items: [
       {
         label: 'Bookings',
         href:  '/admin/bookings',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
-      },
-      {
-        label: 'Waitlist',
-        href:  '/admin/waitlist',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>,
-      },
-      {
-        label: 'Subscribers',
-        href:  '/admin/subscribers',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>,
+        icon:  <Icon d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />,
       },
       {
         label: 'Contacts',
         href:  '/admin/contacts',
-        icon:  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>,
+        icon:  <Icon d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />,
+      },
+      {
+        label: 'Subscribers',
+        href:  '/admin/subscribers',
+        icon:  <Icon d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />,
+      },
+      {
+        label: 'Waitlist',
+        href:  '/admin/waitlist',
+        icon:  <Icon d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />,
       },
     ],
   },
 ]
 
-// ─── Nav link ─────────────────────────────────────────────────
+// ─── Sidebar link ─────────────────────────────────────────────────
 
-function NavItem({
-  item, onClick,
-}: {
-  item:    { label: string; href: string; exact?: boolean; icon: React.ReactNode }
-  onClick?: () => void
-}) {
+function SideLink({ item, collapsed }: { item: NavItem; collapsed: boolean }) {
   const pathname = usePathname()
-  const active   = item.exact ? pathname === item.href : pathname.startsWith(item.href)
+
+  // Active when pathname exactly matches OR is a sub-route
+  const isActive = pathname === item.href ||
+    (item.href !== '/admin' && pathname.startsWith(item.href + '/')) ||
+    (item.href !== '/admin' && pathname === item.href)
 
   return (
-    <Link href={item.href} onClick={onClick}
+    <Link
+      href={item.href}
+      title={collapsed ? item.label : undefined}
       className={[
-        'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-100 relative',
-        active
+        'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 group relative',
+        isActive
           ? 'bg-crimson/8 text-crimson'
           : 'text-void/55 dark:text-whisper/55 hover:bg-void/5 dark:hover:bg-whisper/5 hover:text-void dark:hover:text-whisper',
       ].join(' ')}
     >
-      <span className="shrink-0">{item.icon}</span>
-      <span className="flex-1">{item.label}</span>
-      {active && (
-        <motion.div layoutId="admin-nav-indicator"
-          className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-full bg-crimson"
-          transition={{ type: 'spring', stiffness: 400, damping: 30 }} />
+      {/* Active indicator bar */}
+      {isActive && (
+        <motion.div
+          layoutId="sidebar-active"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-crimson rounded-full"
+          transition={{ type: 'spring', stiffness: 500, damping: 35 }}
+        />
+      )}
+
+      <span className={`flex-shrink-0 ${isActive ? 'text-crimson' : ''}`}>
+        {item.icon}
+      </span>
+
+      {!collapsed && (
+        <span className="truncate">{item.label}</span>
+      )}
+
+      {!collapsed && item.badge && (
+        <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-emerald/10 text-emerald">
+          {item.badge}
+        </span>
       )}
     </Link>
   )
 }
 
-// ─── Sidebar ──────────────────────────────────────────────────
+// ─── Sidebar ──────────────────────────────────────────────────────
 
-function Sidebar({ onNavClick }: { onNavClick?: () => void }) {
-  const router = useRouter()
-
-  function handleSignOut() {
-    document.cookie = 'z3ymo_admin=; max-age=0; path=/admin'
-    router.push('/admin/login')
-  }
-
+function Sidebar({ collapsed, onToggle }: { collapsed: boolean; onToggle: () => void }) {
   return (
-    <div className="flex flex-col h-full bg-white dark:bg-gray-950">
-      {/* Logo */}
-      <div className="h-14 flex items-center gap-3 px-5 border-b border-void/6 dark:border-whisper/6 shrink-0">
-        <div className="w-7 h-7 rounded-lg bg-crimson flex items-center justify-center shrink-0">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="white" stroke="none">
-            <rect x="2" y="3" width="8" height="8" rx="1"/><rect x="14" y="3" width="8" height="8" rx="1"/>
-            <rect x="14" y="14" width="8" height="8" rx="1"/><rect x="2" y="14" width="8" height="8" rx="1"/>
+    <aside
+      className={[
+        'hidden lg:flex flex-col h-screen sticky top-0 border-r border-void/8 dark:border-whisper/8',
+        'bg-whisper/60 dark:bg-void/60 backdrop-blur-xl transition-all duration-300 flex-shrink-0',
+        collapsed ? 'w-[68px]' : 'w-[220px]',
+      ].join(' ')}
+    >
+      {/* Logo row */}
+      <div className="h-16 flex items-center justify-between px-3 border-b border-void/8 dark:border-whisper/8 flex-shrink-0">
+        {!collapsed && (
+          <Link href="/admin"
+            className="font-display font-bold text-lg text-void dark:text-whisper hover:text-crimson transition-colors truncate">
+            Z3ymo
+          </Link>
+        )}
+        <button
+          onClick={onToggle}
+          className={[
+            'w-8 h-8 flex items-center justify-center rounded-xl',
+            'text-void/40 dark:text-whisper/40 hover:text-void dark:hover:text-whisper',
+            'hover:bg-void/8 dark:hover:bg-whisper/8 transition-colors cursor-pointer flex-shrink-0',
+            collapsed ? 'mx-auto' : '',
+          ].join(' ')}
+          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            {collapsed
+              ? <path d="M9 18l6-6-6-6" />
+              : <path d="M15 18l-6-6 6-6" />
+            }
           </svg>
-        </div>
-        <div>
-          <span className="font-display font-bold text-sm text-void dark:text-whisper">Z3ymo</span>
-          <span className="text-[10px] text-void/35 dark:text-whisper/35 ml-1.5 font-medium">Admin</span>
-        </div>
+        </button>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 overflow-y-auto p-3 space-y-5">
-        {NAV_SECTIONS.map((section) => (
-          <div key={section.label}>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-void/30 dark:text-whisper/30 px-3 mb-1.5">
-              {section.label}
-            </p>
+      {/* Nav groups */}
+      <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-6">
+        {NAV_GROUPS.map(group => (
+          <div key={group.title}>
+            {!collapsed && (
+              <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-void/25 dark:text-whisper/25 px-3 mb-1.5">
+                {group.title}
+              </p>
+            )}
             <div className="space-y-0.5">
-              {section.items.map((item) => (
-                <NavItem key={item.href} item={item} onClick={onNavClick} />
+              {group.items.map(item => (
+                <SideLink key={item.href} item={item} collapsed={collapsed} />
               ))}
             </div>
           </div>
         ))}
       </nav>
 
-      {/* Bottom */}
-      <div className="p-3 border-t border-void/6 dark:border-whisper/6 shrink-0">
-        <a href="/" target="_blank" rel="noopener noreferrer"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-void/50 dark:text-whisper/50 hover:bg-void/5 dark:hover:bg-whisper/5 hover:text-void dark:hover:text-whisper transition-colors mb-0.5">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+      {/* Footer */}
+      <div className="px-2 py-3 border-t border-void/8 dark:border-whisper/8 flex-shrink-0">
+        <Link
+          href="/"
+          title={collapsed ? 'View site' : undefined}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-void/40 dark:text-whisper/40 hover:text-void dark:hover:text-whisper hover:bg-void/5 dark:hover:bg-whisper/5 transition-all"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+            <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
-          View website
-        </a>
-        <button onClick={handleSignOut}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm text-void/45 dark:text-whisper/45 hover:bg-red-50 dark:hover:bg-red-950/20 hover:text-red-600 dark:hover:text-red-400 transition-colors cursor-pointer">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+          {!collapsed && <span>View site</span>}
+        </Link>
+      </div>
+    </aside>
+  )
+}
+
+// ─── Mobile top bar ────────────────────────────────────────────────
+
+function MobileTopBar({ onOpen }: { onOpen: () => void }) {
+  const pathname = usePathname()
+  const allItems = NAV_GROUPS.flatMap(g => g.items)
+  const current  = allItems.find(i =>
+    pathname === i.href || (i.href !== '/admin' && pathname.startsWith(i.href))
+  )
+
+  return (
+    <div className="lg:hidden sticky top-0 z-30 h-14 flex items-center justify-between px-4
+      bg-whisper/95 dark:bg-void/95 backdrop-blur-xl
+      border-b border-void/8 dark:border-whisper/8">
+      <Link href="/admin"
+        className="font-display font-bold text-lg text-void dark:text-whisper hover:text-crimson transition-colors">
+        Z3ymo Admin
+      </Link>
+
+      <div className="flex items-center gap-2">
+        {current && (
+          <span className="text-sm text-void/50 dark:text-whisper/50 hidden sm:block">
+            {current.label}
+          </span>
+        )}
+        <button onClick={onOpen}
+          className="w-9 h-9 flex items-center justify-center rounded-xl
+            text-void/55 dark:text-whisper/55 hover:bg-void/8 dark:hover:bg-whisper/8
+            transition-colors cursor-pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6"  x2="21" y2="6"  />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
           </svg>
-          Sign out
         </button>
       </div>
     </div>
   )
 }
 
-// ─── Layout ───────────────────────────────────────────────────
+// ─── Mobile drawer ────────────────────────────────────────────────
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [mobileOpen, setMobileOpen] = useState(false)
+function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
   const pathname = usePathname()
 
-  // Close sidebar on route change
-  useEffect(() => { setMobileOpen(false) }, [pathname])
+  // Close drawer on route change
+  useEffect(() => { onClose() }, [pathname])
 
   return (
-    <div className="flex h-screen bg-gray-50 dark:bg-gray-950 overflow-hidden">
-
-      {/* Mobile overlay */}
-      <AnimatePresence>
-        {mobileOpen && (
+    <AnimatePresence>
+      {open && (
+        <>
           <motion.div
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            onClick={() => setMobileOpen(false)}
-            className="fixed inset-0 z-30 bg-black/30 backdrop-blur-sm lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+            className="fixed inset-0 z-40 bg-void/30 dark:bg-void/50 backdrop-blur-sm lg:hidden"
           />
-        )}
-      </AnimatePresence>
+          <motion.div
+            initial={{ x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '-100%' }}
+            transition={{ type: 'spring', stiffness: 340, damping: 34, mass: 0.9 }}
+            className="fixed top-0 left-0 bottom-0 z-50 w-72 lg:hidden flex flex-col
+              bg-whisper dark:bg-void shadow-2xl"
+          >
+            {/* Header */}
+            <div className="h-14 flex items-center justify-between px-4
+              border-b border-void/8 dark:border-whisper/8 flex-shrink-0">
+              <Link href="/admin" onClick={onClose}
+                className="font-display font-bold text-lg text-void dark:text-whisper">
+                Z3ymo Admin
+              </Link>
+              <button onClick={onClose}
+                className="w-8 h-8 flex items-center justify-center rounded-xl
+                  text-void/40 hover:text-void dark:hover:text-whisper
+                  hover:bg-void/8 dark:hover:bg-whisper/8 transition-colors cursor-pointer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                  <line x1="18" y1="6"  x2="6"  y2="18" />
+                  <line x1="6"  y1="6"  x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
 
-      {/* Sidebar */}
-      <aside className={[
-        'fixed top-0 left-0 bottom-0 z-40 w-56 border-r border-void/8 dark:border-whisper/8',
-        'transition-transform duration-200 ease-out',
-        mobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
-      ].join(' ')}>
-        <Sidebar onNavClick={() => setMobileOpen(false)} />
-      </aside>
+            {/* Nav */}
+            <nav className="flex-1 overflow-y-auto py-4 px-2 space-y-6">
+              {NAV_GROUPS.map(group => (
+                <div key={group.title}>
+                  <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-void/25 dark:text-whisper/25 px-3 mb-1.5">
+                    {group.title}
+                  </p>
+                  <div className="space-y-0.5">
+                    {group.items.map(item => (
+                      <SideLink key={item.href} item={item} collapsed={false} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </nav>
+
+            {/* Footer */}
+            <div className="px-2 py-3 border-t border-void/8 dark:border-whisper/8 flex-shrink-0">
+              <Link href="/" onClick={onClose}
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm
+                  text-void/40 dark:text-whisper/40 hover:text-void dark:hover:text-whisper
+                  hover:bg-void/5 dark:hover:bg-whisper/5 transition-all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="1.75" strokeLinecap="round">
+                  <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                View site
+              </Link>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
+// ─── Layout ───────────────────────────────────────────────────────
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+  const [collapsed,    setCollapsed]    = useState(false)
+  const [mobileOpen,   setMobileOpen]   = useState(false)
+
+  return (
+    <div className="min-h-screen bg-whisper dark:bg-void flex">
+      {/* Desktop sidebar */}
+      <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
+
+      {/* Mobile drawer */}
+      <MobileDrawer open={mobileOpen} onClose={() => setMobileOpen(false)} />
 
       {/* Main */}
-      <div className="flex-1 flex flex-col lg:ml-56 min-h-0">
-
-        {/* Top bar */}
-        <header className="h-14 flex items-center gap-4 px-5 bg-white dark:bg-gray-950 border-b border-void/6 dark:border-whisper/6 shrink-0">
-          <button onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-xl hover:bg-void/5 dark:hover:bg-whisper/5 text-void/50 dark:text-whisper/50 transition-colors cursor-pointer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-            </svg>
-          </button>
-
-          {/* Breadcrumb */}
-          <div className="flex-1 flex items-center gap-1.5 text-xs text-void/40 dark:text-whisper/40">
-            <span>z3ymo.com</span>
-            <span>/</span>
-            <span className="text-void/70 dark:text-whisper/70 font-medium capitalize">
-              {pathname.split('/').filter(Boolean).slice(1).join(' / ') || 'Dashboard'}
-            </span>
-          </div>
-
-          {/* Quick actions */}
-          <div className="flex items-center gap-2">
-            <Link href="/admin/blog/new"
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-crimson text-white text-xs font-semibold hover:bg-crimson/90 transition-colors">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              New post
-            </Link>
-          </div>
-        </header>
-
-        {/* Page content */}
-        <main className="flex-1 overflow-y-auto p-5 sm:p-6">
-          <motion.div
-            key={pathname}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {children}
-          </motion.div>
+      <div className="flex-1 min-w-0 flex flex-col">
+        <MobileTopBar onOpen={() => setMobileOpen(true)} />
+        <main className="flex-1">
+          {children}
         </main>
       </div>
     </div>

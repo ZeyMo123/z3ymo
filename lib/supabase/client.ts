@@ -1,67 +1,65 @@
 import { createClient } from '@supabase/supabase-js'
 
 // ─── Database type ─────────────────────────────────────────────
-//
-// supabase-js v2 infers join types from the Relationships array.
-// Without a relationship entry for posts.category_id → categories.id,
-// `.select('*, categories(...)')` returns SelectQueryError instead of
-// the category row — which is exactly what caused the 4 type errors in
-// queries.ts. The Relationships entry below tells the SDK that
-// posts.category_id is a FK into categories.id so it can resolve the
-// join and type `categories` correctly.
-//
-// Every table also needs Views, Functions, Enums, CompositeTypes at the
-// schema level so supabase-js v2's generic resolution doesn't collapse
-// Insert / Update types to `never`.
 
 export type Database = {
   public: {
     Tables: {
+
+      // ── posts ───────────────────────────────────────────────
       posts: {
         Row: {
-          id:           string
-          title:        string
-          slug:         string
-          excerpt:      string
-          content:      string
-          cover_image:  string | null
-          cover_alt:    string | null
-          category_id:  string | null
-          author_name:  string
-          author_avatar: string | null
-          author_role:  string | null
-          read_time:    number
-          featured:     boolean
-          published:    boolean
-          published_at: string | null
-          views:        number
-          created_at:   string
-          updated_at:   string
-        }
-        Insert: {
-          id?:           string
+          id:            string
           title:         string
           slug:          string
           excerpt:       string
           content:       string
-          cover_image?:  string | null
-          cover_alt?:    string | null
-          category_id?:  string | null
-          author_name?:  string
+          cover_image:   string | null
+          cover_alt:     string | null
+          category_id:   string | null
+          author_name:   string
+          author_avatar: string | null
+          author_role:   string | null
+          read_time:     number
+          featured:      boolean
+          published:     boolean
+          published_at:  string | null
+          views:         number
+          created_at:    string
+          updated_at:    string
+          // Added via ALTER TABLE
+          key_takeaways:       string[]
+          tags:                string[]
+          cta_type:            string | null
+          cta_custom_headline: string | null
+          cta_custom_body:     string | null
+        }
+        Insert: {
+          id?:            string
+          title:          string
+          slug:           string
+          excerpt:        string
+          content:        string
+          cover_image?:   string | null
+          cover_alt?:     string | null
+          category_id?:   string | null
+          author_name?:   string
           author_avatar?: string | null
-          author_role?:  string | null
-          read_time?:    number
-          featured?:     boolean
-          published?:    boolean
-          published_at?: string | null
-          views?:        number
-          created_at?:   string
-          updated_at?:   string
+          author_role?:   string | null
+          read_time?:     number
+          featured?:      boolean
+          published?:     boolean
+          published_at?:  string | null
+          views?:         number
+          created_at?:    string
+          updated_at?:    string
+          key_takeaways?:       string[]
+          tags?:                string[]
+          cta_type?:            string | null
+          cta_custom_headline?: string | null
+          cta_custom_body?:     string | null
         }
         Update: Partial<Database['public']['Tables']['posts']['Insert']>
-        // ← This is the key fix: tells supabase-js that category_id is
-        //   a FK into categories so `.select('*, categories(...)')` types
-        //   correctly instead of returning SelectQueryError.
         Relationships: [
           {
             foreignKeyName:     'posts_category_id_fkey'
@@ -72,6 +70,8 @@ export type Database = {
           },
         ]
       }
+
+      // ── categories ──────────────────────────────────────────
       categories: {
         Row: {
           id:          string
@@ -92,6 +92,77 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['categories']['Insert']>
         Relationships: []
       }
+
+      // ── content_items ────────────────────────────────────────
+      // Guides, case studies, and docs all live in this table.
+      // Uses `status` (not `published: boolean`) matching the DB CHECK.
+      // `pdf_available` is a boolean column here — there is NO separate
+      // pdf_access table.
+      content_items: {
+        Row: {
+          id:           string
+          type:         'guide' | 'case-study' | 'doc'
+          title:        string
+          slug:         string
+          excerpt:      string | null
+          content:      string
+          status:       'draft' | 'published' | 'archived'
+          author_name:  string
+          category_id:  string | null
+          cover_image:  string | null
+          cover_alt:    string | null
+          read_time:    number
+          featured:     boolean
+          published_at: string | null
+          views:        number
+          created_at:   string
+          updated_at:   string
+          // Added via ALTER TABLE
+          key_takeaways:       string[]
+          tags:                string[]
+          cta_type:            string | null
+          cta_custom_headline: string | null
+          cta_custom_body:     string | null
+          pdf_available:       boolean
+        }
+        Insert: {
+          id?:          string
+          type:         'guide' | 'case-study' | 'doc'
+          title:        string
+          slug:         string
+          excerpt?:     string | null
+          content?:     string
+          status?:      'draft' | 'published' | 'archived'
+          author_name?: string
+          category_id?: string | null
+          cover_image?: string | null
+          cover_alt?:   string | null
+          read_time?:   number
+          featured?:    boolean
+          published_at?: string | null
+          views?:       number
+          created_at?:  string
+          updated_at?:  string
+          key_takeaways?:       string[]
+          tags?:                string[]
+          cta_type?:            string | null
+          cta_custom_headline?: string | null
+          cta_custom_body?:     string | null
+          pdf_available?:       boolean
+        }
+        Update: Partial<Database['public']['Tables']['content_items']['Insert']>
+        Relationships: [
+          {
+            foreignKeyName:     'content_items_category_id_fkey'
+            columns:            ['category_id']
+            isOneToOne:         false
+            referencedRelation: 'categories'
+            referencedColumns:  ['id']
+          },
+        ]
+      }
+
+      // ── subscribers ─────────────────────────────────────────
       subscribers: {
         Row: {
           id:         string
@@ -110,6 +181,8 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['subscribers']['Insert']>
         Relationships: []
       }
+
+      // ── contacts ────────────────────────────────────────────
       contacts: {
         Row: {
           id:         string
@@ -134,6 +207,8 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['contacts']['Insert']>
         Relationships: []
       }
+
+      // ── waitlist ────────────────────────────────────────────
       waitlist: {
         Row: {
           id:         string
@@ -152,6 +227,8 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['waitlist']['Insert']>
         Relationships: []
       }
+
+      // ── consultation_slots ──────────────────────────────────
       consultation_slots: {
         Row: {
           id:         string
@@ -176,6 +253,8 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['consultation_slots']['Insert']>
         Relationships: []
       }
+
+      // ── consultation_bookings ───────────────────────────────
       consultation_bookings: {
         Row: {
           id:              string
@@ -212,11 +291,16 @@ export type Database = {
         Update: Partial<Database['public']['Tables']['consultation_bookings']['Insert']>
         Relationships: []
       }
-    }
+
+    }   // ← Tables closes here — all tables are inside
     Views:     Record<string, never>
     Functions: {
-      increment_views: {
+      increment_post_views: {
         Args:    { post_id: string }
+        Returns: undefined
+      }
+      increment_content_views: {
+        Args:    { item_id: string }
         Returns: undefined
       }
       book_consultation_slot: {
@@ -236,6 +320,12 @@ export type Post = Database['public']['Tables']['posts']['Row'] & {
 }
 
 export type Category = Database['public']['Tables']['categories']['Row']
+
+export type ContentItem = Database['public']['Tables']['content_items']['Row'] & {
+  categories?: Database['public']['Tables']['categories']['Row'] | null
+}
+
+export type ContentType = 'guide' | 'case-study' | 'doc'
 
 // ─── Clients ───────────────────────────────────────────────────
 

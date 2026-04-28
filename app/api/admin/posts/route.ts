@@ -131,3 +131,33 @@ export async function POST(req: NextRequest) {
     )
   }
 }
+
+// ─── PATCH /api/admin/posts — update existing post ────────────
+
+export async function PATCH(req: NextRequest) {
+  try {
+    const body = await req.json()
+    const { id, ...updates } = body
+
+    if (!id) return NextResponse.json({ error: 'Post ID is required.' }, { status: 400 })
+
+    const db = createAdminClient()
+
+    if (updates.published && !updates.published_at) {
+      updates.published_at = new Date().toISOString()
+    }
+
+    const { data, error } = await db
+      .from('posts')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', id)
+      .select('id')
+      .single()
+
+    if (error) throw new Error(error.message)
+    return NextResponse.json({ id: data.id })
+  } catch (err: any) {
+    console.error('[PATCH /api/admin/posts]', err)
+    return NextResponse.json({ error: err?.message ?? 'Update failed.' }, { status: 500 })
+  }
+}
