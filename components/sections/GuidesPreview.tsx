@@ -51,8 +51,8 @@ function Empty() {
       <h3 className="font-display font-semibold text-lg text-void dark:text-white mb-2">No featured guides yet</h3>
       <p className="text-sm text-void/45 dark:text-white/40 max-w-xs mb-6 leading-relaxed">Mark guides as featured in the admin dashboard to show them here.</p>
       <div className="flex flex-wrap gap-3 justify-center">
-        <Link href="/admin/content/guides/new" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald text-white text-sm font-semibold hover:bg-emerald/90 transition-colors">Add a guide <Arrow /></Link>
-        <Link href="/guides" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-void/12 dark:border-white/12 text-sm text-void/60 dark:text-white/50 hover:border-void/25 transition-colors">All guides</Link>
+        <Link href="/guides" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-emerald text-white text-sm font-semibold hover:bg-emerald/90 transition-colors">All guides <Arrow /></Link>
+        {/*<Link href="/guides" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-void/12 dark:border-white/12 text-sm text-void/60 dark:text-white/50 hover:border-void/25 transition-colors">All guides</Link>*/}
       </div>
     </div>
   )

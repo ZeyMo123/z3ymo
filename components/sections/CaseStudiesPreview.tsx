@@ -48,8 +48,8 @@ function Empty() {
       <h3 className="font-display font-semibold text-lg text-void dark:text-white mb-2">No featured case studies yet</h3>
       <p className="text-sm text-void/45 dark:text-white/40 max-w-xs mb-6 leading-relaxed">Mark case studies as featured in the dashboard to show them here.</p>
       <div className="flex flex-wrap gap-3 justify-center">
-        <Link href="/admin/content/case-studies/new" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-crimson text-white text-sm font-semibold hover:bg-crimson/90 transition-colors">Add a case study <Arrow /></Link>
-        <Link href="/case-studies" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-void/12 dark:border-white/12 text-sm text-void/60 dark:text-white/50 hover:border-void/25 transition-colors">All case studies</Link>
+        <Link href="/case-studies" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-crimson text-white text-sm font-semibold hover:bg-crimson/90 transition-colors">All case studies <Arrow /></Link>
+        {/*<Link href="/case-studies" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-void/12 dark:border-white/12 text-sm text-void/60 dark:text-white/50 hover:border-void/25 transition-colors">All case studies</Link>*/}
       </div>
     </div>
   )

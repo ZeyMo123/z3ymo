@@ -75,8 +75,8 @@ const RESOURCES_COLS = [
     group: 'Content & Credibility',
     items: [
       { name: 'Blog',          desc: 'Insights on AI, software, and business', href: '/blog' },
-      { name: 'Case Studies',  desc: 'Real projects and outcomes',              href: '/portfolio' },
-      { name: 'Guides',        desc: 'Step-by-step guides and tutorials',       href: '/blog?category=guides' },
+      { name: 'Case Studies',  desc: 'Real projects and outcomes',              href: '/case-studies' },
+      { name: 'Guides',        desc: 'Step-by-step guides and tutorials',       href: '/guides' },
       { name: 'Documentation', desc: 'Pulse API and platform docs',             href: '/docs' },
     ],
   },

@@ -34,7 +34,7 @@ const DEFAULTS: Record<string, {
 }> = {
   consultation: {
     headline: 'Ready to build this for your business?',
-    body:     'Book a free strategy call. We'll help you plan the right approach.',
+    body:     'Book a free strategy call. We\'ll help you plan the right approach.',
     label:    'Book free consultation',
     href:     '/services/consultation/bookfreeconsultation',
   },

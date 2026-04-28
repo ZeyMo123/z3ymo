@@ -130,8 +130,8 @@ export default async function BlogPostPage({
 
   if (error || !post) notFound()
 
-  // Increment views — fire and forget
-  db.rpc('increment_post_views', { post_id: post.id }).catch(() => {})
+  // ✓ Proper fire-and-forget that works with Supabase's return type
+  void db.rpc('increment_post_views', { post_id: post.id })
 
   // Derive CTA type
   const ctaType       = (post as any).cta_type            ?? 'consultation'
