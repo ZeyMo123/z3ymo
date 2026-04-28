@@ -2,29 +2,35 @@
 // app/api/admin/content/route.ts
 //
 // Handles Guides, Case Studies, and Documentation CRUD.
-// POST /api/admin/content  → create new content item
-// GET  /api/admin/content?type=guide  → list items by type
+// GET   /api/admin/content?type=guide  → list items by type
+// POST  /api/admin/content             → create new content item
+// PATCH /api/admin/content             → update existing item
 // ─────────────────────────────────────────────────────────────────
 
 import { NextRequest, NextResponse } from 'next/server'
-import { createAdminClient } from '@/lib/supabase/client'
+import { createAdminClient }         from '@/lib/supabase/client'
+import type { ContentType }          from '@/lib/supabase/client'
+
+const VALID_TYPES: ContentType[] = ['guide', 'case-study', 'doc']
 
 // ─── GET: list content items ──────────────────────────────────
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
-  const type  = searchParams.get('type')
   const limit = parseInt(searchParams.get('limit') ?? '50')
 
-  if (!type || !['guide', 'case-study', 'doc'].includes(type)) {
+  const rawType = searchParams.get('type')
+  if (!rawType || !VALID_TYPES.includes(rawType as ContentType)) {
     return NextResponse.json({ error: 'Invalid or missing type parameter.' }, { status: 400 })
   }
+  const type = rawType as ContentType
 
   try {
     const db = createAdminClient()
     const { data, error } = await db
       .from('content_items')
-      .select('id, title, slug, excerpt, featured, published, published_at, read_time, type, category_id, views, downloads')
+      // ✓ 'status' not 'published', no 'downloads' column
+      .select('id, title, slug, excerpt, featured, status, published_at, read_time, type, category_id, views')
       .eq('type', type)
       .order('created_at', { ascending: false })
       .limit(limit)
@@ -46,13 +52,15 @@ export async function POST(req: NextRequest) {
       type, title, slug, excerpt, content,
       cover_image, cover_alt, author_name,
       category_id, tags, key_takeaways,
-      read_time, featured, published,
+      read_time, featured,
+      // ✓ 'status' replaces the old 'published' boolean
+      status,
       cta_type, cta_custom_headline, cta_custom_body,
       pdf_available,
     } = body
 
     // Validation
-    if (!type || !['guide', 'case-study', 'doc'].includes(type))
+    if (!type || !VALID_TYPES.includes(type))
       return NextResponse.json({ error: 'Invalid content type.' }, { status: 400 })
     if (!title?.trim())
       return NextResponse.json({ error: 'Title is required.' }, { status: 400 })
@@ -74,6 +82,10 @@ export async function POST(req: NextRequest) {
     if (existing)
       return NextResponse.json({ error: `A ${type} with this slug already exists.` }, { status: 409 })
 
+    // ✓ Use 'status' column — 'draft' | 'published' | 'archived'
+    const resolvedStatus = ['draft', 'published', 'archived'].includes(status) ? status : 'draft'
+    const isPublished    = resolvedStatus === 'published'
+
     const { data, error } = await db
       .from('content_items')
       .insert({
@@ -85,13 +97,14 @@ export async function POST(req: NextRequest) {
         cover_image:         cover_image?.trim() || null,
         cover_alt:           cover_alt?.trim()   || null,
         author_name:         author_name?.trim() || 'Z3ymo Team',
-        category_id:         category_id?.trim() || null,
+        category_id:         category_id         || null,
         tags:                Array.isArray(tags)           ? tags           : [],
         key_takeaways:       Array.isArray(key_takeaways) ? key_takeaways : [],
         read_time:           Number(read_time) || 5,
         featured:            Boolean(featured),
-        published:           Boolean(published),
-        published_at:        published ? new Date().toISOString() : null,
+        // ✓ status instead of published boolean
+        status:              resolvedStatus,
+        published_at:        isPublished ? new Date().toISOString() : null,
         cta_type:            cta_type ?? 'consultation',
         cta_custom_headline: cta_custom_headline || null,
         cta_custom_body:     cta_custom_body     || null,
@@ -119,10 +132,14 @@ export async function PATCH(req: NextRequest) {
 
     const db = createAdminClient()
 
-    // If publishing for first time, set published_at
-    if (updates.published && !updates.published_at) {
+    // ✓ Check status, not published boolean
+    // Set published_at when transitioning to 'published' for the first time
+    if (updates.status === 'published' && !updates.published_at) {
       updates.published_at = new Date().toISOString()
     }
+
+    // ✓ Strip any stale 'published' boolean that might come from old clients
+    delete updates.published
 
     const { data, error } = await db
       .from('content_items')
