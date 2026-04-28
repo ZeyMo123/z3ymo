@@ -93,7 +93,7 @@ function accentColor(type: ContentType): string {
 const CTA_DEFAULTS: Record<string, { headline: string; body: string; href: string; label: string }> = {
   consultation: {
     headline: 'Ready to build this for your business?',
-    body:     'Book a free strategy call and we'll help you plan the right approach.',
+    body:     'Book a free strategy call and we\'ll help you plan the right approach.',
     href:     '/services/consultation/bookfreeconsultation',
     label:    'Book free consultation',
   },
